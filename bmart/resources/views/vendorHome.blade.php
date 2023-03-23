@@ -3,9 +3,10 @@
 @section('content')
 <div class="section-content">
     <div class="container-fluid">
-            <h2>Hello {{Auth::user()->name}}!</h2>
-        <hr>
         <table class="table">
+            <span>
+                <h2>Hello {{Auth::user()->name}}!</h2>
+            </span>
             <thead>
                 <tr>
                     <th scope="col">Product Name</th>
