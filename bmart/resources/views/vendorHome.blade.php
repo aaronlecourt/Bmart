@@ -8,11 +8,7 @@
                 <div class="card-header">{{ __('Dashboard') }}</div>
   
                 <div class="card-body">
-                    You are a Vendor.
-                    <p>{{Auth::user()->id}}</p>
-                    {{-- @foreach($vendorids as $vendor)
-                    <p>{{$vendor->id}}</p>
-                    @endforeach --}}
+                    You are a Vendor {{Auth::user()->id}}.
                 </div>
             </div>
         </div>

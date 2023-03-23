@@ -1,85 +1,50 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
-
-                        <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-
+<div class="container-fluid login-wrap">
+    <div class="testform">
+        <h4>Register an Account</h4>
+        <hr>
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
+            <input id="name" placeholder="Enter name" type="text" class="form-control mt-3 register-name @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                                        <h6>{{ $message }}</h6>
                                     </span>
                                 @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
+            <input id="email" placeholder="Enter email" type="email" class="form-control mt-3 register-email @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                                        <h6>{{ $message }}</h6>
                                     </span>
                                 @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
+            <input id="password" placeholder="Enter password" type="password" class="form-control mt-3 register-pass @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                                        <h6>{{ $message }}</h6>
                                     </span>
                                 @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="" class="col-md-4 col-form-label text-md-end">{{ __('') }}</label>
-                            <div class="col-md-6">
-                                <input type="radio" class="form-radio" name="isVendor" id="isVendor" value="0"> I am a customer <br>
-                                <input type="radio" class="form-radio" name="isVendor" id="isVendor" value="1"> I am a vendor
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+            <input id="password-confirm" placeholder="Confirm Password" type="password" class="form-control mt-3 register-confpass" name="password_confirmation" required autocomplete="new-password">
+            <br>
+                <div class="radio-inputs">
+                    <input type="radio" class="form-radio" name="isVendor" id="isVendor" value="0"> I am a customer
                 </div>
-            </div>
-        </div>
+                <div class="radio-inputs">
+                    <input type="radio" class="form-radio"  name="isVendor" id="isVendor" value="1"> I am a vendor
+                </div>
+            <br>
+            <p style="font-size:10pt;">Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy.</p>
+                <div class="form-check checkterms">
+                    <input class="form-check-input" type="checkbox" value="1" id="termsCond"> I agree with the Terms & Conditions.
+                </div>
+            <br>
+            <button type="submit" class="btn btn-warning w-100 mt-3 regist-btn">
+                {{ __('Register') }}
+            </button>
+            <br><br>
+                <span>Already have an account? <a href="/">Login</a></span>
+        </form>
     </div>
 </div>
 @endsection
