@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,5 +27,7 @@ Route::middleware(['auth', 'user-access:buyer'])->group(function(){
 
 //Seller Route List
 Route::middleware(['auth', 'user-access:vendor'])->group(function(){
-    Route::get('/vendor/home',[HomeController::class, 'vendorHome'])->name('vendor.home');
+    Route::get('/vendor/home',[HomeController::class, 'vendorHome']);
+    Route::get('/vendor/home', [ProductController::class, 'index'])->name('vendor.home');
+    Route::resource('/vendor/products', ProductController::class);
 });
