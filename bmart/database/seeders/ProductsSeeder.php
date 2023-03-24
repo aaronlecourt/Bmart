@@ -21,7 +21,6 @@ class ProductsSeeder extends Seeder
                 'product_price'=>'50',
                 'quantity'=>'100',
                 'description'=>'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint quo pariatur quam mollitia eos.',
-                'gallery'=>'https://media.istockphoto.com/id/545454816/photo/fresh-carrots-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=Ildkp76TfQOntsgiIMDu2cAsBt2ebHx2870MHy-4zBs=',
             ],
             [
                 'category_id'=>'1',
@@ -30,16 +29,14 @@ class ProductsSeeder extends Seeder
                 'product_price'=>'20',
                 'quantity'=>'85',
                 'description'=>'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint quo pariatur quam mollitia eos.',
-                'gallery'=>'https://media.istockphoto.com/id/495878092/photo/red-apple.jpg?s=612x612&w=0&k=20&c=M2ndFI1v2erJM18q1Cd1QCM8jqBlRKLc1nLE9BNp-EY=',
             ],
             [
                 'category_id'=>'1',
-                'user_id'=>'4',
+                'user_id'=>'3',
                 'product_name'=>'Grapes',
                 'product_price'=>'100',
                 'quantity'=>'50',
                 'description'=>'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint quo pariatur quam mollitia eos.',
-                'gallery'=>'https://thumbs.dreamstime.com/b/fresh-black-grapes-isolated-white-background-clipping-path-144171973.jpg',
             ]         
         ]);
     }

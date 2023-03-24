@@ -23,16 +23,24 @@ class CreateUsersSeeder extends Seeder
                 'number'=>'0912345',                
                'email'=>'vendor@email.com',
                'isVendor'=>1,
-               'password'=> bcrypt('123456'),
+               'password'=> bcrypt('12345678'),
             ],
             [
                'name'=>'Buyer',
                'birthdate'=>Carbon::create('2001', '07', '08'),
                 'number'=>'0912345',
-               'email'=>'buyer@email.com',
+               'email'=>'customer@email.com',
                'isVendor'=>0,
-               'password'=> bcrypt('123456'),
+               'password'=> bcrypt('12345678'),
             ],
+            [
+                'name'=>'Vendor2',
+                'birthdate'=>Carbon::create('2001', '07', '08'),
+                 'number'=>'0912345',                
+                'email'=>'vendor2@email.com',
+                'isVendor'=>1,
+                'password'=> bcrypt('12345678'),
+             ],
         ];
     
         foreach ($users as $key => $user) {

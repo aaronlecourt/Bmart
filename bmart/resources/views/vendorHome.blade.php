@@ -4,10 +4,12 @@
 <div class="section-content">
     <div class="container-fluid">
         <table class="table">
-            <span>
-                <h2>Hello {{Auth::user()->name}}!</h2>
-            </span>
             <thead>
+                <tr>
+                    <th><h2>Hello {{Auth::user()->name}}!</h2></th>
+                    <th colspan="4"></th>
+                    <th><a class="text-white btn btn-primary">Add Product</a></th>
+                </tr>
                 <tr>
                     <th scope="col">Product Name</th>
                     <th scope="col">Price</th>
@@ -26,8 +28,8 @@
                     <td>{{$product->quantity}}</td>
                     <td>{{$product->description}}</td>
                     <td>
-                        <button type="submit" class="text-white" style="background-color:rgb(0, 159, 0);">Edit</button>
-                        <button type="submit" class="text-white" style="background-color:rgb(255, 42, 42);">Delete</button>
+                        <a class="text-white btn btn-success">Edit</a>
+                        <a class="text-white btn btn-danger">Delete</a>
                     </td>
                 </tr>
                 @endforeach
