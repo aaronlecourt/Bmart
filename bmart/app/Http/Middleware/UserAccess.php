@@ -18,6 +18,6 @@ class UserAccess
         if(auth()->user()->isVendor == $isVendor){
             return $next($request);
         }
-        return response()->view('vendorHome');
+        return response()->redirectToRoute('vendor.home');
     }
 }

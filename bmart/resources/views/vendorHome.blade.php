@@ -1,14 +1,20 @@
 @extends('layouts.app')
-  
 @section('content')
 <div class="section-content">
     <div class="container-fluid">
-        <table class="table">
+        <table id="productTable" class="table table-hover">
             <thead>
                 <tr>
                     <th><h2>Hello {{Auth::user()->name}}!</h2></th>
-                    <th colspan="4"></th>
-                    <th><a class="text-white btn btn-primary">Add Product</a></th>
+                    <th colspan="4">
+                        @if(session()->has('message'))
+                        <div class="bg-success alert">
+                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                            {{ session()->get('message') }}
+                        </div>
+                        @endif
+                    </th>
+                    <th><a href="{{route('products.create')}}" class="text-white btn btn-primary rounded-pill w-100">Add Product</a></th>
                 </tr>
                 <tr>
                     <th scope="col">Product Name</th>
@@ -28,13 +34,18 @@
                     <td>{{$product->quantity}}</td>
                     <td>{{$product->description}}</td>
                     <td>
-                        <a class="text-white btn btn-success">Edit</a>
-                        <a class="text-white btn btn-danger">Delete</a>
+                        <a href="{{route('products.edit', $product->prod_id)}}" class="text-white btn btn-success rounded-pill">Edit</a>
+                        <form method="POST" action="{{url('vendor/products'.'/'.$product->prod_id)}}" style="display:inline;">
+                            {{method_field('DELETE')}}
+                            {{csrf_field()}}
+                            <input type="submit" class="btn btn-danger rounded-pill" value="Delete" onclick="return confirm('Confirm Delete?')">
+                        </form>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
+        <div style="line-height:2;">{{$products->links()}}</div>
     </div>
 </div>
 @endsection

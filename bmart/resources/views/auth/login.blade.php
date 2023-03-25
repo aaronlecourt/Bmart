@@ -5,7 +5,7 @@
     <div class="testform">
         <h4>Login Your Account</h4>
         <hr>
-        <form method="POST" action="{{ route('login') }}">
+        <form method="post" action="{{ route('login') }}">
             @csrf
             <input id="email" placeholder="Your email" type="email" class="form-control mt-3 login-name @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 

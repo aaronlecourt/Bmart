@@ -50,9 +50,9 @@ class LoginController extends Controller
         if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
         {
             if (auth()->user()->isVendor == 'vendor') {
-                return redirect()->route('vendor.home');
+                return redirect()->route('vendor.home')->with('message', 'You have successfully logged in!');
             }else if (auth()->user()->isVendor == 'buyer') {
-                return redirect()->route('home');
+                return redirect()->route('home')->with('message', 'You have successfully logged in!');
             }else{
                 return redirect()->route('login');
             }

@@ -27,9 +27,10 @@ class HomeController extends Controller
         return view('home');
     }
     public function vendorHome(){
-        $vendorids = DB::table('users')
-                    ->where('isVendor','=',1)
-                    ->get();
-        return view('vendorHome', compact('vendorids'));
+        // $vendorids = DB::table('users')
+        //             ->where('isVendor','=',1)
+        //             ->get();
+        return view('vendorHome');
+        // , compact('vendorids')
     }
 }

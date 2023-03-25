@@ -30,4 +30,5 @@ Route::middleware(['auth', 'user-access:vendor'])->group(function(){
     Route::get('/vendor/home',[HomeController::class, 'vendorHome']);
     Route::get('/vendor/home', [ProductController::class, 'index'])->name('vendor.home');
     Route::resource('/vendor/products', ProductController::class);
+    // Route::post('/vendor/products/{product}', [ProductController::class, 'destroy']);
 });
