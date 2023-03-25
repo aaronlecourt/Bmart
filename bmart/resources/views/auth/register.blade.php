@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Register')
 @section('content')
 <div class="container-fluid login-wrap">
     <div class="testform">

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Edit Products')
 @section('content')
     <div class="d-flex container-fluid p-5 justify-content-center login-wrap">
         <div class="bg-light rounded-0 shadow-sm p-4 w-50 testform" style="border:2px solid #dedede;">

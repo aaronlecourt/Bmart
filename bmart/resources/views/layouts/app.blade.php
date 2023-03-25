@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title')</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,6 +27,7 @@
         <link rel="stylesheet" href="{{asset('css/mart.css')}}">
 </head>
 <body style="font-family:'Nunito', sans-serif;">
+    @section('title', 'Welcome to BerryMart')
     @section('header')
     {{-- header-top --}}
     <div class="nav header-top" id="header-top">
