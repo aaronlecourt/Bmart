@@ -28,11 +28,16 @@
             <input id="password-confirm" placeholder="Confirm Password" type="password" class="form-control mt-3 register-confpass" name="password_confirmation" required autocomplete="new-password">
             <br>
                 <div class="radio-inputs">
-                    <input type="radio" class="form-radio" name="isVendor" id="isVendor" value="0"> I am a customer
+                    <input type="radio" class="form-radio @error('isVendor') is-invalid @enderror" name="isVendor" id="isVendor" value="0"> I am a customer
                 </div>
                 <div class="radio-inputs">
-                    <input type="radio" class="form-radio"  name="isVendor" id="isVendor" value="1"> I am a vendor
+                    <input type="radio" class="form-radio @error('isVendor') is-invalid @enderror"  name="isVendor" id="isVendor" value="1"> I am a vendor
                 </div>
+                @error('isVendor')
+                    <span class="invalid-feedback" role="alert">
+                        <h6>{{ $message }}</h6>
+                    </span>
+                @enderror
             <br>
             <p style="font-size:10pt;">Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy.</p>
                 <div class="form-check checkterms">
