@@ -7,6 +7,12 @@
         <hr>
         <form method="post" action="{{ route('login') }}">
             @csrf
+            @if($errors->any())
+            <div class="bg-danger alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                {{$errors->first()}}
+            </div>
+            @endif
             <input id="email" placeholder="Your email" type="email" class="form-control mt-3 login-name @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                                 @error('email')
@@ -17,11 +23,11 @@
             
             <input id="password" placeholder="Your Password" type="password" class="form-control mt-3 login-pass @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
-                                @error('password')
+                                {{-- @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                @enderror
+                                @enderror --}}
             <br>
             <button type="submit" class="btn btn-warning w-100 mt-3 login-btn" id="loginbtn" >
                 {{ __('Login') }}

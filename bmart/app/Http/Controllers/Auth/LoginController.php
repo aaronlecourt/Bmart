@@ -44,21 +44,20 @@ class LoginController extends Controller
      
         $this->validate($request, [
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|min:8',
         ]);
      
         if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
         {
             if (auth()->user()->isVendor == 'vendor') {
-                return redirect()->route('vendor.home')->with('message', 'You have successfully logged in!');
+                return redirect()->route('vendor.home')->with('message', 'You have successfully logged in as a vendor!');
             }else if (auth()->user()->isVendor == 'buyer') {
-                return redirect()->route('home')->with('message', 'You have successfully logged in!');
+                return redirect()->route('home')->with('message', 'You have successfully logged in as a customer!');
             }else{
                 return redirect()->route('login');
             }
         }else{
-            return redirect()->route('login')
-                ->with('error','Email Address And Password Are Wrong.');
+            return redirect()->back()->withErrors(['errors'=>'Details not found in our records.']);
         }
     }
 }
