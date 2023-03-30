@@ -370,7 +370,7 @@
                           </div>
                     </div>
                     <div class="crft">
-                        <p>© 2023 BerryMart. All Rights Reserved. Lecourt, Aaron Zayke P. IAB WEBSYS2</p>
+                        <p>© 2023 BerryMart. All Rights Reserved. Lecourt, Aaron Zayke & Galutera, Caesar Klidge IAB WEBSYS2</p>
                     </div>
                 </div>
                 

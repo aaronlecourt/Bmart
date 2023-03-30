@@ -36,7 +36,7 @@
                     <td>{{$product->description}}</td>
                     <td>
                         <a href="{{route('products.edit', $product->prod_id)}}" class="text-white btn btn-success rounded-pill">Edit</a>
-                        <form method="POST" action="{{url('vendor/products'.'/'.$product->prod_id)}}" style="display:inline;">
+                       <form method="POST" action="{{url('vendor/products'.'/'.$product->prod_id)}}" style="display:inline;">
                             {{method_field('DELETE')}}
                             {{csrf_field()}}
                             <input type="submit" class="btn btn-danger rounded-pill" value="Delete" onclick="return confirm('Confirm Delete?')">
@@ -46,7 +46,7 @@
                 @endforeach
             </tbody>
         </table>
-        <div style="line-height:2;">{{$products->links()}}</div>
+        <div>{{$products->links()}}</div>
     </div>
 </div>
 @endsection
