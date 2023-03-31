@@ -13,21 +13,8 @@
                 {{$errors->first()}}
             </div>
             @endif
-            <input id="email" placeholder="Your email" type="email" class="form-control mt-3 login-name @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-            
-            <input id="password" placeholder="Your Password" type="password" class="form-control mt-3 login-pass @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                {{-- @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror --}}
+            <input id="email" placeholder="Your email" type="email" class="form-control mt-3 login-name @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email" autofocus>            
+            <input id="password" placeholder="Your Password" type="password" class="form-control mt-3 login-pass @error('password') is-invalid @enderror" name="password" autocomplete="current-password">
             <br>
             <button type="submit" class="btn btn-warning w-100 mt-3 login-btn" id="loginbtn" >
                 {{ __('Login') }}

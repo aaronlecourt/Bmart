@@ -18,16 +18,16 @@
                 @endforeach
                 @endif
                 <input id="user_id" class="form-control" type="text" value="{{Auth::id()}}" name="user_id" readonly>
-                <input id="product_name" placeholder="Product Name" type="text" class="form-control mt-3" name="product_name" value="{{ old('product_name') }}" required autofocus>
-                <input id="product_price" placeholder="Product Price" type="number" class="form-control mt-3" name="product_price" value="{{ old('product_price') }}" required autofocus>
+                <input id="product_name" placeholder="Product Name" type="text" class="form-control mt-3" name="product_name" value="{{ old('product_name') }}" autofocus>
+                <input id="product_price" placeholder="Product Price" type="number" class="form-control mt-3" name="product_price" value="{{ old('product_price') }}" autofocus>
                     <br>
-                <select name="category_id" id="category_id" class="form-select" required>
+                <select name="category_id" id="category_id" class="form-select">
                     <option value="" disabled selected hidden>Product Categories</option>
                     @foreach ($categories as $category)
                         <option value="{{$category->id}}">{{$category->category_name}}</option>
                     @endforeach
                 </select>
-                <input id="quantity" placeholder="Product Quantity" type="number" class="form-control mt-3" name="quantity" value="{{ old('quantity') }}" required autofocus>
+                <input id="quantity" placeholder="Product Quantity" type="number" class="form-control mt-3" name="quantity" value="{{ old('quantity') }}" autofocus>
                 <br>
                 <textarea class="form-control" name="description" id="" cols="30" rows="5" placeholder="Product Description"></textarea><br>
                 <button type="submit" class="btn btn-primary w-100">Add Product</button>
