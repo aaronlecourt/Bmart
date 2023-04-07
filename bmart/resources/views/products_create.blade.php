@@ -5,7 +5,7 @@
         <div class="bg-light rounded-0 shadow-sm p-4 w-50 testform" style="border:2px solid #dedede;">
             <h3>Add a New Product</h3><hr>
             
-            <form action="{{route('products.store')}}" method="POST">
+            <form action="{{route('products.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @if ($errors->any())
                 @foreach ($errors->all() as $error)
@@ -30,6 +30,11 @@
                 <input id="quantity" placeholder="Product Quantity" type="number" class="form-control mt-3" name="quantity" value="{{ old('quantity') }}" autofocus>
                 <br>
                 <textarea class="form-control" name="description" id="" cols="30" rows="5" placeholder="Product Description"></textarea><br>
+                <div>
+                    <input type="file" name="product_image" class="form-control" onchange="previewFile(this)">
+                    <img id="previewImg" alt="" style="max-width:100%; max-height: 200px; margin-top:20px; border-radius: 15px;"/>
+                </div>
+                <br>
                 <button type="submit" class="btn btn-primary w-100">Add Product</button>
             </form>
             {{-- 'user_id',
@@ -43,3 +48,15 @@
     </div>
 @endsection
 
+<script>
+    function previewFile(input){
+        var file = $("input[type=file]").get(0).files[0];
+        if(file){
+            var reader = new FileReader();
+            reader.onload = function(){
+                $('#previewImg').attr("src", reader.result);
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+</script>

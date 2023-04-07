@@ -7,7 +7,7 @@
             <small>Currently editing product: {{$product->product_name}}</small>
             <hr>
 
-            <form action="{{route('products.update', $product->id)}}" method="POST">
+            <form action="{{route('products.update', $product->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 @if ($errors->any())
@@ -33,6 +33,12 @@
                 <input id="quantity" placeholder="Product Quantity" type="number" class="form-control mt-3" name="quantity" value="{{$product->quantity}}" autofocus>
                 <br>
                 <textarea class="form-control" name="description" id="" cols="30" rows="5" placeholder="Product Description" >{{$product->description}}</textarea><br>
+                <div>
+                    <input type="file" name="product_image" class="form-control" onchange="previewFile(this)" value="">
+                    <img id="previewImg" src="{{asset('product_image/'.$product->product_image)}}" alt="" style="max-width:100%; max-height: 100px; margin-top:20px; border-radius: 15px;"/>
+
+                    {{-- <img id="previewImg" alt="product Image" style="max-width:100%; max-height: 200px; margin-top:20px; border-radius: 15px;"/> --}}
+                </div>
                 <button type="submit" class="btn btn-success w-100">Edit Product</button>
             </form>
         </div>
@@ -40,3 +46,15 @@
     </div>
 @endsection
 
+<script>
+    function previewFile(input){
+        var file = $("input[type=file]").get(0).files[0];
+        if(file){
+            var reader = new FileReader();
+            reader.onload = function(){
+                $('#previewImg').attr("src", reader.result);
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
