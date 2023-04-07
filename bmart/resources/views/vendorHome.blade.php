@@ -7,7 +7,7 @@
             <thead>
                 <tr>
                     <th><h2>Hello {{Auth::user()->name}}!</h2></th>
-                    <th colspan="4">
+                    <th colspan="5">
                         @if(session()->has('message'))
                         <div class="bg-success alert">
                             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
@@ -23,6 +23,7 @@
                     <th scope="col">Category</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Description</th>
+                    <th scope="col">Image</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -34,6 +35,7 @@
                     <td>{{$product->category_name}}</td>
                     <td>{{$product->quantity}}</td>
                     <td>{{$product->description}}</td>
+                    <td><img src="{{asset('product_image/'.$product->product_image)}}" alt="No product image" class="rounded-3" style="max-height:80px;"></td>
                     <td>
                         <a href="{{route('products.edit', $product->prod_id)}}" class="text-white btn btn-success rounded-pill">Edit</a>
                        <form method="POST" action="{{url('vendor/products'.'/'.$product->prod_id)}}" style="display:inline;">

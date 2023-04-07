@@ -1,6 +1,6 @@
 .login-wrap{
-    height: 100vh;
-    overflow-y: scroll;
+    /* height: 120vh; */
+    /* overflow-y: scroll; */
     width: 100%;
     display: inline-flex;
     justify-content: center;
