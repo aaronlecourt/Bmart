@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app2')
 @section('title', 'Vendor Home')
 @section('content')
 <div class="section-content">
@@ -6,8 +6,7 @@
         <table id="productTable" class="table table-hover">
             <thead>
                 <tr>
-                    <th><h2>Hello {{Auth::user()->name}}!</h2></th>
-                    <th colspan="5">
+                    <th colspan="6">
                         @if(session()->has('message'))
                         <div class="bg-success alert">
                             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
@@ -15,7 +14,7 @@
                         </div>
                         @endif
                     </th>
-                    <th><a href="{{route('products.create')}}" class="text-white btn btn-primary rounded-pill w-100">Add Product</a></th>
+                    <th><a href="{{route('products.create')}}" class="text-white btn btn-primary rounded-3 w-100">Add Product</a></th>
                 </tr>
                 <tr>
                     <th scope="col">Product Name</th>
@@ -37,11 +36,11 @@
                     <td>{{$product->description}}</td>
                     <td><img src="{{asset('product_image/'.$product->product_image)}}" alt="No product image" class="rounded-3" style="max-height:80px;"></td>
                     <td>
-                        <a href="{{route('products.edit', $product->prod_id)}}" class="text-white btn btn-success rounded-pill">Edit</a>
+                        <a href="{{route('products.edit', $product->prod_id)}}" class="text-white btn btn-success rounded-3">Edit</a>
                        <form method="POST" action="{{url('vendor/products'.'/'.$product->prod_id)}}" style="display:inline;">
                             {{method_field('DELETE')}}
                             {{csrf_field()}}
-                            <input type="submit" class="btn btn-danger rounded-pill" value="Delete" onclick="return confirm('Confirm Delete?')">
+                            <input type="submit" class="btn btn-danger rounded-3" value="Delete" onclick="return confirm('Confirm Delete?')">
                         </form>
                     </td>
                 </tr>
