@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Welcome')
 @section('content')
-<div class="section-content">
+<div class="section-contenta">
     <div class="home-head home-left">
         <button><a href="/">Shop Now</a></button>
     </div> 

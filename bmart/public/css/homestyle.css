@@ -30,7 +30,14 @@
     background-image: url('/images/slider-bg.jpg');
 }
 
-.section-content button{
+.section-contenta{
+    display: flex;
+    height: 500px;
+    padding: 20px;
+    background-image: url('/images/slider-bg.jpg');
+}
+
+.section-contenta button{
     border: 1px solid #3435363e;
     border-radius: 5px;
     font-weight: 600;
