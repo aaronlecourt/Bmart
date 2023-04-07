@@ -21,7 +21,11 @@ class UserAccess
         // return response()->redirectToRoute('vendor.home');
 
         if(auth()->user()->isVendor == $isVendor){
-            return $next($request);
+            return $next($request)
+            //prevent the site from cache-ing and redirects to login when user tries to go back after log out
+            ->header('Cache-Control', 'no-cache, no-store, must-revalidate')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
         }
         return back();
     }
