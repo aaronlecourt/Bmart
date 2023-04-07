@@ -40,14 +40,46 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //validation
-        $validate = $request->validate([
+        $request->validate([
             'product_name'=>['required','regex:/^[a-zA-Z0-9 ]*$/','max:50'],
             'product_price'=>'required',
             'category_id'=>'required',
             'quantity'=>'required',
             'description'=>'required',
+            'product_image'=>'required|mimes:jpg,png,jpeg|max:5048',
         ]);
-        Product::create($request->all());
+        
+        $imageName = time().'-'.$request->product_name.'.'. $request->product_image->extension();
+        $request->product_image->move(public_path('product_image'), $imageName);
+        // dd($test);
+
+        $product = Product::create([
+            'user_id' => $request->input('user_id'),
+            'product_name' => $request->input('product_name'),
+            'product_price' => $request->input('product_price'),
+            'category_id' => $request->input('category_id'),
+            'quantity'=> $request->input('quantity'),
+            'description' => $request->input('description'),
+            'product_image'=> $imageName
+        ]);
+        // $product_name = $request->product_name;
+        // $product_price = $request->product_price;
+        // $category_id = $request->category_id;
+        // $quantity = $request->quantity;
+        // $description = $request->description;
+        // $product_image = $request->file('file');
+        // $imageName = time().'.'.$product_image->extension();
+        // $product_image->move(public_path('images'), $imageName);
+
+        // $product = new Product();
+        // $product->product_name = $product_name;
+        // $product->product_price = $product_price;
+        // $product->category_id = $category_id;
+        // $product->quantity = $quantity;
+        // $product->description = $description;
+        // $product->product_image = $imageName;
+        // $product->save();
+
         return redirect()->route('vendor.home')->with('message','You have successfully added a product!');
     }
 
@@ -81,8 +113,25 @@ class ProductController extends Controller
             'category_id'=>'required',
             'quantity'=>'required',
             'description'=>'required',
+            'product_image'=>'required|mimes:jpg,png,jpeg|max:5048',
         ]);
-        $product->update($request->all());
+        
+        if($request->hasFile('product_image')){
+            $imageName = time().'-'.$request->product_name.'.'. $request->product_image->extension();
+            $request->product_image->move(public_path('product_image'), $imageName);
+            $product->product_image = $imageName;
+        }
+
+        $product = Product::where('id', $product->id)->update([
+            'product_name' => $request->input('product_name'),
+            'product_price' => $request->input('product_price'),
+            'category_id' => $request->input('category_id'),
+            'quantity'=> $request->input('quantity'),
+            'description' => $request->input('description'),
+            'product_image'=> $imageName
+        ]);
+
+        // dd($product);
         return redirect()->route('vendor.home')->with('message', 'You have successfully edited the product!');
     }
 

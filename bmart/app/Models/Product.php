@@ -16,5 +16,6 @@ class Product extends Model
         'category_id',
         'quantity',
         'description',
+        'product_image',
     ];
 }
