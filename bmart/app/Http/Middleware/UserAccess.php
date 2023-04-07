@@ -15,9 +15,14 @@ class UserAccess
      */
     public function handle(Request $request, Closure $next, $isVendor)
     {
+        // if(auth()->user()->isVendor == $isVendor){
+        //     return $next($request);
+        // }
+        // return response()->redirectToRoute('vendor.home');
+
         if(auth()->user()->isVendor == $isVendor){
             return $next($request);
         }
-        return response()->redirectToRoute('vendor.home');
+        return back();
     }
 }
