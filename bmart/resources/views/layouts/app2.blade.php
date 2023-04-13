@@ -64,7 +64,7 @@
     </div>
     @show
     <div class="container-fluid d-flex row p-0 m-0">
-            <div class="col p-0 m-0" style="border-right: 2px solid rgb(215, 215, 215);">
+            <div class="col-2 p-0 m-0" style="border-right: 2px solid rgb(215, 215, 215);">
                 <div class="bg-light p-4 h-100">
                     <a href="/" class="d-flex">
                         <img src="https://github.com/mdo.png" alt="" width="30" height="30" class="rounded-circle me-2">

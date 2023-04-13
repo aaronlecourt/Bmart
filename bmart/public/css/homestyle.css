@@ -22,6 +22,12 @@
     color: black;
   }
 
+#section-cont{
+    display: flex;
+    /* height: 500px; */
+    padding: 20px;
+    /* background-image: url('/images/slider-bg.jpg'); */
+}
 
 .section-content{
     display: flex;

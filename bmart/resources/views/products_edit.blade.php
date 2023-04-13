@@ -34,7 +34,7 @@
                 <br>
                 <textarea class="form-control" name="description" id="" cols="30" rows="5" placeholder="Product Description" >{{$product->description}}</textarea><br>
                 <div>
-                    <input type="file" name="product_image" class="form-control" onchange="previewFile(this)" value="">
+                    <input type="file" name="product_image" class="form-control" onchange="previewFile(this)">
                     <img id="previewImg" src="{{asset('product_image/'.$product->product_image)}}" alt="" style="max-width:100%; max-height: 100px; margin-top:20px; border-radius: 15px;"/>
 
                     {{-- <img id="previewImg" alt="product Image" style="max-width:100%; max-height: 200px; margin-top:20px; border-radius: 15px;"/> --}}
