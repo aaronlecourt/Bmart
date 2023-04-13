@@ -7,21 +7,11 @@ use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
         $prods = DB::table('products')
@@ -32,10 +22,6 @@ class HomeController extends Controller
         return view('home', compact('prods'));
     }
     public function vendorHome(){
-        // $vendorids = DB::table('users')
-        //             ->where('isVendor','=',1)
-        //             ->get();
         return view('vendorHome');
-        // , compact('vendorids')
     }
 }

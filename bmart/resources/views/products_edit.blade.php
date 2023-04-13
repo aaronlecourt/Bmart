@@ -11,38 +11,33 @@
                 @csrf
                 @method('PUT')
                 @if ($errors->any())
-                @foreach ($errors->all() as $error)
-                <div class="bg-danger alert">
-                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-                    <ul>
-                            <li>{{ $error }}</li>
-                    </ul>
-                </div>
-                @endforeach
+                    @foreach ($errors->all() as $error)
+                        <div class="bg-danger alert">
+                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                            <ul><li>{{ $error }}</li></ul>
+                        </div>
+                    @endforeach
                 @endif
-                {{-- <input id="user_id" class="form-control" type="text" value="{{Auth::id()}}" name="user_id" readonly> --}}
+
                 <input id="product_name" placeholder="Product Name" type="text" class="form-control mt-3" name="product_name" value="{{$product->product_name}}" autofocus>
                 <input id="product_price" placeholder="Product Price" type="number" class="form-control mt-3" name="product_price" value="{{$product->product_price}}" autofocus>
-                    <br>
+        <br>
                 <select name="category_id" id="category_id" class="form-select">
-                    {{-- <option value="{{$product->category_id}}" disabled selected hidden>{{$product->cname}}</option> --}}
                     @foreach ($categories as $category)
                         <option value="{{$category->id}}"{{$product->category_id == $category->id ?"selected" : ""}}>{{$category->category_name}}</option>
                     @endforeach
                 </select>
+
                 <input id="quantity" placeholder="Product Quantity" type="number" class="form-control mt-3" name="quantity" value="{{$product->quantity}}" autofocus>
-                <br>
+        <br>
                 <textarea class="form-control" name="description" id="" cols="30" rows="5" placeholder="Product Description" >{{$product->description}}</textarea><br>
                 <div>
                     <input type="file" name="product_image" class="form-control" onchange="previewFile(this)">
                     <img id="previewImg" src="{{asset('product_image/'.$product->product_image)}}" alt="" style="max-width:100%; max-height: 100px; margin-top:20px; border-radius: 15px;"/>
-
-                    {{-- <img id="previewImg" alt="product Image" style="max-width:100%; max-height: 200px; margin-top:20px; border-radius: 15px;"/> --}}
                 </div>
                 <button type="submit" class="btn btn-success w-100">Edit Product</button>
             </form>
         </div>
-
     </div>
 @endsection
 
