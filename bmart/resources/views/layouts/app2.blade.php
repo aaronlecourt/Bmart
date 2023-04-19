@@ -111,7 +111,7 @@
             
             <div class="nav-items">
                 {{-- <li><a href="" disabled><i class="fa-solid fa-user"></i>&nbsp </a></li> --}}
-                <li><a href="">My Profile</a></li>
+                <li><a href="/vendor/profile">My Profile</a></li>
                 <li><a href="/vendor/products">Products</a></li>
                 <li><a href="">Orders</a></li>
             </div>

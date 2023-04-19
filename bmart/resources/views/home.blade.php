@@ -6,7 +6,7 @@
         <div class="row row-cols-1 row-cols-md-5 g-4">
             @foreach($prods as $prod)
             <div class="col">
-                <div class="card product-card" style="width:250px;">
+                <div class="card product-card" >
                     <img src="{{asset('product_image/'.$prod->product_image)}}" class="card-img-top" alt="Product Image" style="height: 200px;width: 100%;object-fit: cover; border-bottom:3px solid orange;">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
@@ -17,6 +17,7 @@
                         <p class="card-text">{{$prod->description}}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <small class="card-text">{{$prod->category_name}} | {{$prod->name}}</small>
+                            {{-- <input type="number" class="form-input" value="0"> --}}
                             <span class="input-group-text">Quantity:{{$prod->quantity}}</span>
                         </div>
                         <br>

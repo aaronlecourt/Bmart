@@ -79,8 +79,8 @@
             
                 <div class="searchbar">
                     <form action="#">
-                        <input type="search" class="search-data" placeholder="I'm looking for..." required>
-                        <button type="submit" class="fas fa-search"></button>
+                        <input type="search" name="search" id="search" class="search-data" placeholder="I'm looking for...">
+                        <button type="submit" class="fas fa-search" disabled></button>
                     </form>
                 </div>
                 {{-- <div class="search-icon">

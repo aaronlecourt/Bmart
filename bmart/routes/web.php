@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,5 +31,7 @@ Route::middleware(['auth', 'user-access:vendor'])->group(function(){
     Route::get('/vendor/home',[HomeController::class, 'vendorHome']);
     Route::get('/vendor/home', [ProductController::class, 'index'])->name('vendor.home');
     Route::resource('/vendor/products', ProductController::class);
+    Route::get('/vendor/profile', [UserController::class,'changeProfile'])->name('change-profile');
+    Route::post('/vendor/profile', [UserController::class,'updateProfile'])->name('update-profile');
     // Route::post('/vendor/products/{product}', [ProductController::class, 'destroy']);
 });
