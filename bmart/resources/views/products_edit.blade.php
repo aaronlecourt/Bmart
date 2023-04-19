@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.app2')
 @section('title', 'Edit Products')
 @section('content')
-    <div class="d-flex container-fluid p-5 justify-content-center login-wrap">
-        <div class="bg-light rounded-0 shadow-sm p-4 w-50 testform" style="border:2px solid #dedede;">
+    <div class="container-fluid p-2 w-100 justify-content-center login-wrap">
+        <div class="bg-light rounded-0 shadow-sm testform" style="border:2px solid #dedede;">
             <h3>Edit Product</h3>
             <small>Currently editing product: {{$product->product_name}}</small>
             <hr>

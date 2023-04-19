@@ -3,14 +3,14 @@
 @section('content')
 <div class="section-contenta">
     <div class="home-head home-left">
-        <button><a href="/">Shop Now</a></button>
+        <button><a href="/home">Shop Now</a></button>
     </div> 
     <div class="home-head home-right">
-        <button><a href="/">Shop Now</a></button>
+        <button><a href="/home">Shop Now</a></button>
     </div>       
 </div>
  
-<div class="section-content2">
+<div class="w-100 section-content2">
     <h2>Browse by Category</h2>
     <div class="scroll-cards">
         <ul>
@@ -156,7 +156,7 @@
             <h3>How Do I Track My Order?</h3>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim, magni aliquam! Ullam modi tempore officia maiores nobis doloremque a. Natus ducimus, inventore quae cupiditate explicabo excepturi at vitae delectus suscipit.Similique, voluptates adipisci! Tempora nesciunt natus eveniet dolor esse aliquam, illum vitae provident fugit laborum, magni, voluptates ut quos nobis iure! Saepe eveniet aliquid distinctio corrupti? Dignissimos sunt quis exercitationem.</p>
         </div>
-    </div>
+</div>
 
     
 @endsection

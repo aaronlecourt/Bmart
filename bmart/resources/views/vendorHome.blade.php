@@ -3,26 +3,24 @@
 @section('content')
 
 <div id="section-cont">
-    <div class="container-fluid">
-        <table id="productTable" class="table table-hover">
+        @if(session()->has('message'))
+        <div class="bg-success alert rounded-3">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+            {{ session()->get('message') }}
+        </div>
+        @endif
+        @if(session()->has('error'))
+        <div class="bg-danger alert rounded-3">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+            {{ session()->get('error') }}
+        </div>
+        @endif
+    <h3 style="font-weight:600;">Hello {{Auth()->user()->name}}!</h3>
+    <h6>Here is an overview of your products!</h6>
+    <br>
+    <div class="container-fluid productTable">
+        <table class="table sticky">
             <thead>
-                <tr>
-                    <th colspan="6">
-                        @if(session()->has('message'))
-                        <div class="bg-success alert rounded-3">
-                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-                            {{ session()->get('message') }}
-                        </div>
-                        @endif
-                        @if(session()->has('error'))
-                        <div class="bg-danger alert rounded-3">
-                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-                            {{ session()->get('error') }}
-                        </div>
-                        @endif
-                    </th>
-                    <th><a href="{{route('products.create')}}" class="text-white btn btn-primary rounded-3 w-100">Add Product</a></th>
-                </tr>
                 <tr>
                     <th scope="col">Product Name</th>
                     <th scope="col">Price</th>
@@ -30,7 +28,11 @@
                     <th scope="col">Quantity</th>
                     <th scope="col">Description</th>
                     <th scope="col">Image</th>
-                    <th scope="col"></th>
+                    <th scope="col" class="actions">
+                      <a href="{{route('products.create')}}" class="text-white btn btn-primary rounded-3">
+                        Add Product
+                      </a>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -42,16 +44,19 @@
                     <td>{{$product->quantity}}</td>
                     <td>{{$product->description}}</td>
                     <td><img src="{{asset('product_image/'.$product->product_image)}}" alt="No product image" class="rounded-3" style="max-height:40px;"></td>
-                    <td>
-                        <a href="{{route('products.edit', $product->prod_id)}}" class="text-white btn btn-success rounded-3">Edit</a>
-                        <a href="#" class=" text-white btn btn-danger rounded-3" data-bs-toggle="modal" data-bs-target="#delete-modal">Delete</a>
+                    <td class="actions">
+                      <a href="{{route('products.edit', $product->prod_id)}}" class="text-white btn btn-success rounded-3">
+                        Edit</a>
+                      <a href="#" class=" text-white btn btn-danger rounded-3" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                        Delete</a>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
-        <div>{{$products->links()}}</div>
     </div>
+    <br>
+    <div style="font-size:13px;">{{$products->links()}}</div>
 </div>
 
 <!-- Delete Modal -->
@@ -59,7 +64,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header bg-danger text-white">
-          <h5 class="modal-title" id="delete-modal-label">Confirm Delete</h5>
+          <h5 class="modal-title" id="delete-modal-label"><i class="fa-sharp fa-solid fa-trash-can"></i>&nbspConfirm Delete</h5>
           <span class="closebtn" data-bs-dismiss="modal" aria-label="Close">&times;</span>
         </div>
         <div class="modal-body">

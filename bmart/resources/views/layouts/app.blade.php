@@ -145,18 +145,18 @@
             </div>
 
             <div class="nav-items">
-                <li><a href="">Products</a></li>
-                <li><a href="">Vendors</a></li>
-                <li><a href="">Cart</a></li>
-                <li><a href="">FAQs</a></li>
-                <li><a href="">Contact Us</a></li>
+                <li><a href="/home">Products</a></li>
+                <li><a href="/">Vendors</a></li>
+                <li><a href="/">Cart</a></li>
+                <li><a href="/">FAQs</a></li>
+                <li><a href="/">Contact Us</a></li>
             </div>
 
             
         </div>
      </nav>
     @show
-        <main class="container-fluid m-0 p-0">
+        <main class="">
             @yield('content')
         </main>
     </div>

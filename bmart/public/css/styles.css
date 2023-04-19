@@ -262,6 +262,12 @@ nav div{
 }
 
 @media (max-width: 715px){
+  nav div{
+    padding: 0px 20px;
+  }
+  .navmid .flex-left{
+    padding-right: 20px;
+  }
   nav{
     background-color: white;
   }

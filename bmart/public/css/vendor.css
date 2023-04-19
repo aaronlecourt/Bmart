@@ -1,0 +1,35 @@
+#section-cont{
+    padding: 20px 50px;
+    /* background-image: url('/images/slider-bg.jpg'); */
+}
+.productTable{
+    border-radius: 5px;
+    /* background-color: rgba(255,255,255,0.3); */
+    border: 1px solid rgba(0,0,0,0.2);
+}
+tr .actions{
+    /* background-color: white; */
+    position: sticky;
+    right: 0;
+}
+@media (max-width: 715px){
+    #section-cont{
+        padding: 20px 25px;
+    }
+}
+@media (max-width: 650px){
+    .productTable{
+        overflow-x: scroll;
+      }
+    tr .actions{
+        /* display: flex; */
+        flex-wrap: nowrap;
+        width: 100%;
+        /* border: none; */
+        /* border-left: 1px solid #000; */
+    }
+    tr .actions a{
+        margin-top: 2px;
+        width: 100%;
+    }
+}
