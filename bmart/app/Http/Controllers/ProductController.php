@@ -10,16 +10,39 @@ use Auth;
 
 class ProductController extends Controller
 {
-    public function index()
-    {
-        $userId = Auth::id();
-        $products = DB::table('products')
-                    ->join('categories','products.category_id', '=', 'categories.id')
-                    ->select('products.*','categories.*','products.id AS prod_id')
-                    ->where('user_id','=',$userId)
-                    ->paginate(5);
-        return view('vendorHome',compact('products'));
+    public function index(Request $request)
+{
+    $userId = Auth::id();
+    $query = DB::table('products')
+        ->join('categories', 'products.category_id', '=', 'categories.id')
+        ->select('products.*','categories.*','products.id AS prod_id','products.created_at AS created_at','products.updated_at AS updated_at')
+        ->where('products.user_id', $userId);
+
+    // Check if search query is present in the request
+    if ($request->has('search')) {
+        $search = $request->input('search');
+        $query->where(function ($q) use ($search) {
+            $q->where('product_name', 'like', '%'.$search.'%')
+              ->orWhere('products.id', 'like', '%'.$search.'%')
+              ->orWhere('product_price', 'like', '%'.$search.'%')
+              ->orWhere('quantity', 'like', '%'.$search.'%')
+              ->orWhere('description', 'like', '%'.$search.'%')
+              ->orWhere('category_name', 'like', '%'.$search.'%')
+              ->orWhereRaw("DATE_FORMAT(products.created_at, '%b %d, %Y') LIKE '%$search%'");
+        });        
     }
+
+    $products = $query->paginate(5);
+
+    // Append search parameter to pagination links
+    if ($request->has('search')) {
+        $search = $request->input('search');
+        $products->appends(['search' => $search]);
+    }
+
+    return view('vendorHome', compact('products'));
+}
+
 
     public function create()
     {

@@ -88,8 +88,8 @@
                 </div>
             
                 <div class="searchbar">
-                    <form action="#">
-                        <input type="search" class="search-data" placeholder="I'm looking for..." required>
+                    <form action="{{ route('vendor.home') }}" method="GET">
+                        <input type="search" name="search" class="search-data" placeholder="Product Search...">
                         <button type="submit" class="fas fa-search"></button>
                     </form>
                 </div>
