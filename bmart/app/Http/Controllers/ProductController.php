@@ -27,8 +27,8 @@ class ProductController extends Controller
               ->orWhere('product_price', 'like', '%'.$search.'%')
               ->orWhere('quantity', 'like', '%'.$search.'%')
               ->orWhere('description', 'like', '%'.$search.'%')
-              ->orWhere('category_name', 'like', '%'.$search.'%')
-              ->orWhereRaw("DATE_FORMAT(products.created_at, '%b %d, %Y') LIKE '%$search%'");
+              ->orWhere('category_name', 'like', '%'.$search.'%');
+            //   ->orWhereRaw("DATE_FORMAT(products.created_at, '%b %d, %Y') LIKE '%$search%'");
         });        
     }
 
