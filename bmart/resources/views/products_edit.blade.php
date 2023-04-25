@@ -11,12 +11,15 @@
                 @csrf
                 @method('PUT')
                 @if ($errors->any())
-                    @foreach ($errors->all() as $error)
+                    
                         <div class="bg-danger alert">
+                            <b>Failed to update record because:</b>
                             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-                            <ul><li>{{ $error }}</li></ul>
+                            @foreach ($errors->all() as $error)
+                            <ul><li>&nbsp&nbsp- {{ $error }}</li></ul>
+                            @endforeach
                         </div>
-                    @endforeach
+                    
                 @endif
 
                 <input id="product_name" placeholder="Product Name" type="text" class="form-control mt-3" name="product_name" value="{{$product->product_name}}" autofocus>

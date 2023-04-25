@@ -57,7 +57,7 @@ class LoginController extends Controller
                 return redirect()->route('login');
             }
         }else{
-            return redirect()->back()->withErrors(['errors'=>'Details not found in our records.']);
+            return redirect()->back()->withErrors(['errors'=>'Credentials not found in our records.']);
         }
     }
 }

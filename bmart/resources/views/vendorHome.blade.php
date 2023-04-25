@@ -92,16 +92,31 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title" id="delete-modal-label"><i class="fa-sharp fa-solid fa-trash-can"></i>&nbspConfirm Delete</h5>
+                <h5 class="modal-title" id="delete-modal-label"><i class="fa-sharp fa-solid fa-trash-can"></i>&nbspDelete Confirmation</h5>
                 <span class="closebtn" data-bs-dismiss="modal" aria-label="Close">&times;</span>
               </div>
               <div class="modal-body">
+                <div class="row container-fluid p-3 rounded-3" style="border:1px solid rgba(0,0,0,0.2); margin:auto;">
+                  <div class="col d-flex align-items-center justify-content-center">
+                    <img src="{{asset('product_image/'.$product->product_image)}}" alt="No product image" class="rounded-3" style="max-height:80px;">
+                  </div>
+                  <div class="col">
+                    <div class="row ">
+                      <h4>{{$product->product_name}} ({{$product->category_name}})</h4>
+                    </div>
+                    <div class="row">
+                      <p>{{$product->description}}
+                        <br>Price: {{$product->product_price}} | Quantity: {{$product->quantity}}</p>
+                    </div>
+                  </div>
+                </div>
+               <br>
                 <p>Are you sure you want to delete this product? Enter your password to confirm:</p>
                 <form method="POST" action="{{ route('products.destroy', $product->prod_id) }}">
                   @csrf
                   @method('DELETE')
                   <div class="form-group">
-                    <input type="password" name="password" class="form-control" required>
+                    <input type="password" name="password" class="form-control" placeholder="Type your current password" required>
                   </div><br>
                   <button type="submit" class="btn btn-danger">Confirm Delete</button>
                 </form>
