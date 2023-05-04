@@ -124,10 +124,13 @@
             </div>
           </div>
         </div>
-        <br>
-        <div style="font-size:13px;">{{$products->links()}}</div>
-        @endif
     </div>
+    <br>
+        <div class="d-flex justify-content-between align-items-center">
+          <div>{{$products->links()}}</div>
+          <div>&nbsp&nbsp&nbsp&nbsp Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{$products->total()}} product(s) </div>
+        </div>
+        @endif
 </div>
 </div>
 @endsection
