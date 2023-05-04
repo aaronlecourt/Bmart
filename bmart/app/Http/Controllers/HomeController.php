@@ -15,6 +15,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {   
         $userId = \Auth::id();
+        $srch = $request->input('search');
         $categs = DB::table('categories')->get();
         $vend = DB::table('users')
             ->where('isVendor','=','1')
@@ -39,14 +40,14 @@ class HomeController extends Controller
             });        
         }
 
-        $prods = $query->paginate(10);
+        $prods = $query->paginate(12);
         // Append search parameter to pagination links
         if ($request->has('search')) {
             $search = $request->input('search');
             $prods->appends(['search' => $search]);
         }
 
-        return view('home', compact('prods','categs','vend'));
+        return view('home', compact('prods','categs','vend', 'srch'));
     }
     public function vendorHome(){
         return view('vendorHome');

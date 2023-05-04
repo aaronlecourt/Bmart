@@ -22,6 +22,15 @@
             @endforeach
         </form>
     </div>
+    @if($prods->isEmpty())
+    <div class="container-fluid rounded-3" style="border: 1px solid rgba(0,0,0,0.1);">
+        <div class="row">
+            <div class="col-sm-6 p-5">
+            <p>No "{{$srch}}" product records were found.</p>
+            </div>
+        </div>
+    </div>
+    @else    
     <div class="container-fluid rounded-3" style="border: 1px solid rgba(0,0,0,0.1);">
         <div class="row">
             @foreach($prods as $prod)
@@ -53,6 +62,7 @@
         </div>
         {{$prods->links()}}
     </div>
+    @endif
 </div>
 </div>
 @endsection
