@@ -87,6 +87,7 @@
                 @endforeach
             </tbody>
         </table>
+        
         <!-- Delete Modal -->
         <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="delete-modal-label" aria-hidden="true">
           <div class="modal-dialog" role="document">
@@ -126,11 +127,11 @@
         </div>
     </div>
     <br>
-        <div class="d-flex justify-content-between align-items-center">
-          <div>{{$products->links()}}</div>
-          <div>&nbsp&nbsp&nbsp&nbsp Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{$products->total()}} product(s) </div>
-        </div>
+          {{-- <div class="container-fluid p-0" style="padding:0; margin:0;"> --}}
+            {{$products->links('pagination::bootstrap-5')}}
+          {{-- </div> --}}
         @endif
 </div>
 </div>
+
 @endsection
