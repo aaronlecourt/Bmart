@@ -46,8 +46,8 @@
                         <p class="card-text">{{$prod->description}}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <small class="card-text">{{$prod->category_name}} | {{$prod->name}}</small>
-                            {{-- <input type="number" class="form-input" value="0"> --}}
-                            <span class="input-group-text">Quantity:{{$prod->quantity}}</span>
+                            <input type="number" class="form-control" value="0"/>
+                            {{-- <span class="input-group-text">Quantity:{{$prod->quantity}}</span> --}}
                         </div>
                         <br>
                         <div class="d-grid gap-2">
