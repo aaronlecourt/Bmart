@@ -1,3 +1,4 @@
+.modal-backdrop {background-color:transparent;}
 .trending-wrapper{
     background-color: red;
 }
@@ -10,5 +11,22 @@
     max-height: 100px;
 }
 
+.cartblock{
+    display: block;
+    background: white;
+    right: 0;
+    border: 1px solid red;
+    position: absolute;
+    z-index: 9999;
+    justify-self: center;
+    align-self: center;
+    width: 500px;
+    /* height: 50vh; */
+}
+.cartitems{
+    height: 400px;
+    margin-bottom: 10px;
+    overflow-y: scroll;
+}
 
 

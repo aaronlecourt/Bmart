@@ -95,19 +95,19 @@
                 </div>
     
                 <div class="icon d-flex align-items-center justify-content-center" style="">
-                    <button class="btn btn-transparent position-relative p-0 m-0">
+                    <button class="btn btn-transparent position-relative p-0 m-0" disabled style="border:none;">
                         <i class="fas fa-heart"></i>
                         <span class="position-absolute top-0 right-4 start-100 translate-middle badge rounded-pill bg-warning text-dark">
                             0
                         </span>
                     </button>
-                    <button class="btn btn-transparent position-relative p-0 m-0">
+                    <button class="btn btn-transparent position-relative p-0 m-0" disabled style="border:none;">
                         <i class="fas fa-cart-shopping"></i>
                         <span class="position-absolute top-0 right-4 start-100 translate-middle badge rounded-pill bg-warning text-dark">
                             0
                         </span>
                     </button>
-                    <button class="btn btn-transparent"><i class="fas fa-user"></i></button>
+                    <button class="btn btn-transparent" disabled style="border:none;"><i class="fas fa-user"></i></button>
                 </div>
             </div>
         </div>
@@ -146,16 +146,16 @@
 
             <div class="nav-items">
                 <li><a href="/home">Products</a></li>
-                <li><a href="/">Vendors</a></li>
-                <li><a href="/">Cart</a></li>
+                <li><a href="/">Orders</a></li>
+                <li><a href="/cart">Cart</a></li>
                 <li><a href="/">FAQs</a></li>
                 <li><a href="/">Contact Us</a></li>
             </div>
-
-            
         </div>
      </nav>
+        {{-- @yield('cartdiv')  --}}
     @show
+    
         <main class="">
             @yield('content')
         </main>

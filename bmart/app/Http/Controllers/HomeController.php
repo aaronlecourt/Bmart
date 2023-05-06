@@ -20,10 +20,11 @@ class HomeController extends Controller
         $vend = DB::table('users')
             ->where('isVendor','=','1')
             ->get();
-        $query = DB::table('products')
-        ->join('categories','products.category_id', '=', 'categories.id')
-        ->join('users','products.user_id', '=', 'users.id')
-        ->select('products.*','categories.*','users.*','products.id AS prod_id');
+            $query = DB::table('products')
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->join('users', 'products.user_id', '=', 'users.id')
+            ->select('products.*', 'categories.*', 'users.*', 'products.id AS prod_id', 'categories.id AS categ_id');
+    
 
         // Check if search query is present in the request
         if ($request->has('search')) {
@@ -47,7 +48,7 @@ class HomeController extends Controller
             $prods->appends(['search' => $search]);
         }
 
-        return view('home', compact('prods','categs','vend', 'srch'));
+        return view('home', compact('prods','categs','vend', 'srch', 'userId'));
     }
     public function vendorHome(){
         return view('vendorHome');

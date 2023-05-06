@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CartController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,6 +25,7 @@ Auth::routes();
 //Buyer Route List
 Route::middleware(['auth', 'user-access:buyer'])->group(function(){
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::resource('/cart', CartController::class);
 });
 
 //Seller Route List
@@ -34,4 +36,5 @@ Route::middleware(['auth', 'user-access:vendor'])->group(function(){
     Route::get('/vendor/profile', [UserController::class,'changeProfile'])->name('change-profile');
     Route::post('/vendor/profile', [UserController::class,'updateProfile'])->name('update-profile');
     // Route::post('/vendor/products/{product}', [ProductController::class, 'destroy']);
+
 });
