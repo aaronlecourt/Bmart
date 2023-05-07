@@ -26,6 +26,7 @@
                 <th scope="col">Category</th>
                 <th scope="col">Price</th>
                 <th scope="col">Qty</th>
+                {{-- <th scope="col"></th> --}}
                 <th scope="col">Total</th>
                 <th scope="col">Vendor Name</th>
                 {{-- <th scope="col">Status</th> --}}
@@ -45,9 +46,27 @@
               <td>{{$cart->category_name}}</td>
               <td>{{$cart->product_price}}</td>
               <td>
-                  x{{$cart->cart_quantity}}
-                  {{-- <input style="width:50px;" type="number" class="m-0 form-control quantity-input" value="{{$cart->cart_quantity}}" name="quantity" data-cart-id="{{$cart->cart_id}}"/> --}}
-              </td>
+                <form method="POST" action="{{route('cart.update', $cart->cart_id) }}">
+                    @csrf
+                    @method('PUT')
+                <span class="cart-quantity">x{{$cart->cart_quantity}}</span>
+                <div class="input-group" style="white-space:nowrap; width:auto; display: none;">
+                    <input type="number" class="form-control" style="" value="{{$cart->cart_quantity}}" name="quantity" data-cart-id="{{$cart->cart_id}}">
+                    <div class="input-group-append" style="display: inline-flex;">
+                        <button type="submit" class="btn btn-transparent" style="font-size: 0.7rem;">
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+                        <button type="button" class="btn btn-transparent cancel-cart" style="font-size: 0.7rem; display: none;">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <a href="#" class="edit-cart" style="font-size: 0.7rem;">
+                    <i class="fa-solid fa-pen-nib"></i>
+                </a>
+                </form>
+            </td>                     
               <td data-item-price="{{$cart->cart_quantity*$cart->product_price}}">{{$cart->cart_quantity*$cart->product_price}}</td>
               <td>{{$cart->vendor_name}}</td>
               <td class="actions">
@@ -63,8 +82,12 @@
           @endforeach
           <tr>
               <th colspan="5">
-                  <button class="btn btn-secondary">Clear Cart</button>
-                  <button class="btn btn-success mx-2">Checkout</button>
+                <form method="POST" action="{{ route('cart.clear') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-secondary">Clear Cart</button>
+                    <button class="btn btn-success mx-2">Checkout</button>
+                </form>                
+                  
               </th>
               <th colspan="3">
                   <h5 style="font-weight:600" class="d-flex">Total:
@@ -78,5 +101,22 @@
     {{-- {{$carts->links('pagination::bootstrap-5')}} --}}
     </div>
 </div>
+<script>
+$(document).ready(function() {
+    $(".edit-cart").click(function(event) {
+        event.preventDefault();
+        $(this).hide();
+        $(this).closest('td').find('.cart-quantity').hide();
+        $(this).closest('td').find('.input-group').show().find(".btn-transparent").show();
+    });
 
+    $(".cancel-cart").click(function(event) {
+        event.preventDefault();
+        $(this).parents(".input-group").hide();
+        $(this).parents(".input-group").siblings(".cart-quantity").show();
+        $(this).parents(".input-group").siblings(".edit-cart").show();
+    });
+});
+
+</script>   
 @endsection

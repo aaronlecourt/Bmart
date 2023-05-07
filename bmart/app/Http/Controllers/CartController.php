@@ -88,12 +88,17 @@ class CartController extends Controller
      */
     public function update(Request $request, $id)
     {
-       
+        if ($request->input('quantity') <= 0) {
+            return redirect()->back()->with('error', 'The quantity must be greater than 0.');
+        }
+    
+        // Update cart table with new quantity value
+        $cart = Cart::find($id);
+        $cart->cart_quantity = $request->input('quantity');
+        $cart->save();
+    
+        return redirect()->route('cart.index')->with('message', 'Item updated successfully');
     }
-
-
-
-
     /**
      * Remove the specified resource from storage.
      */
@@ -106,6 +111,12 @@ class CartController extends Controller
         } else {
             return redirect()->back()->with('error', 'Item not found!');
         }
+    }
+
+    public function clear()
+    {
+        Cart::truncate();
+        return redirect()->route('cart.index')->with('message', 'Cart cleared successfully');
     }
 
 }

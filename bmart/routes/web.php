@@ -26,6 +26,7 @@ Auth::routes();
 Route::middleware(['auth', 'user-access:buyer'])->group(function(){
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::resource('/cart', CartController::class);
+    Route::match(['get', 'post'], '/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
 });
 
 //Seller Route List
