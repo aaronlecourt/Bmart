@@ -53,20 +53,26 @@ class CartController extends Controller
             return redirect()->back()->with('error', 'Failed to add to cart! Quantity must be 1+.');
         }
 
-        $cart = new Cart([
-            'cart_userid' => $request->input('userid'),
-            'cart_productid' => $request->input('product_id'),
-            'cart_categoryid' => $request->input('categ_id'),
-            'cart_quantity' => $quantity,
-            'cart_price' => $request->input('product_price')
-        ]);
+        $cartItem = Cart::where('cart_productid', $request->input('product_id'))
+                        ->where('cart_userid', $request->input('userid'))
+                        ->first();
 
-        $cart->save();
+        if ($cartItem) {
+            $cartItem->cart_quantity += $quantity;
+            $cartItem->save();
+        } else {
+            $cartItem = new Cart([
+                'cart_userid' => $request->input('userid'),
+                'cart_productid' => $request->input('product_id'),
+                'cart_categoryid' => $request->input('categ_id'),
+                'cart_quantity' => $quantity,
+                'cart_price' => $request->input('product_price')
+            ]);
+            $cartItem->save();
+        }
 
         return redirect()->back()->with('message', 'Successfully added to cart!');
     }
-
-
     /**
      * Display the specified resource.
      */
