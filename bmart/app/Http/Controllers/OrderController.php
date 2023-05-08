@@ -10,13 +10,21 @@ use Auth;
 
 class OrderController extends Controller
 {
-    public function show($orderId)
+    public function index()
     {
-        $order = Order::findOrFail($orderId);
-        $products = $order->products;
-
-        return view('orders', compact('order', 'products'));
+        $userId = auth()->id();
+        $orders = Order::where('user_id', $userId)->paginate(5);
+        return view('orders', compact('orders'));
     }
+
+
+    // public function show($orderId)
+    // {
+    //     $ord = Order::findOrFail($orderId);
+    //     $products = $order->products;
+
+    //     return view('orders', compact('ord', 'products'));
+    // }
 
     public function store(Request $request)
 {
@@ -54,7 +62,7 @@ class OrderController extends Controller
         $cart->delete();
     }
 
-    return redirect()->route('orders.show', ['orderId' => $order->id]);
+    return redirect()->route('orders.index', ['orderId' => $order->id]);
 }
 
 }

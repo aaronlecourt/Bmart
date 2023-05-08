@@ -29,11 +29,12 @@ Route::middleware(['auth', 'user-access:buyer'])->group(function(){
     Route::resource('/cart', CartController::class);
     Route::match(['get', 'post'], '/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
     // Show order details
-Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show');
+    // Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show');
 
-// Create new order
-Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
-});
+    // Create new order
+    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    });
 
 //Seller Route List
 Route::middleware(['auth', 'user-access:vendor'])->group(function(){

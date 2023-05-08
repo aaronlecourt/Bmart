@@ -146,7 +146,7 @@
 
             <div class="nav-items">
                 <li><a href="/home">Products</a></li>
-                <li><a href="/">Orders</a></li>
+                <li><a href="/orders">Orders</a></li>
                 <li><a href="/cart">Cart</a></li>
                 <li><a href="/">FAQs</a></li>
                 <li><a href="/">Contact Us</a></li>
