@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('user_id');
             $table->string('name');
             $table->string('address');
             $table->string('city');
@@ -21,9 +22,10 @@ return new class extends Migration
             $table->string('phone');
             $table->string('email');
             $table->decimal('total_price', 8, 2);
-            $table->string('status')->default('pending');
+            $table->enum('status', ['pending', 'confirmed', 'shipped', 'delivered'])->default('pending');
             $table->timestamps();
         });
+        
     }
 
     /**

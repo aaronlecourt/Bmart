@@ -123,8 +123,9 @@ class CartController extends Controller
 
     public function clear()
     {
-        Cart::truncate();
+        $userId = Auth::id();
+        Cart::where('cart_userid', $userId)->delete();
         return redirect()->route('cart.index')->with('message', 'Cart cleared successfully');
     }
-
+    
 }

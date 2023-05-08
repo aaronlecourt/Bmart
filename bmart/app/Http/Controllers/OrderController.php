@@ -3,96 +3,58 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\Cart;
+use Auth;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function show($orderId)
     {
-       
+        $order = Order::findOrFail($orderId);
+        $products = $order->products;
+
+        return view('orders', compact('order', 'products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
-    {
-        // Validate the form data
-        $request->validate([
-            'username' => 'required',
-            'address' => 'required',
-            'city' => 'required',
-            'country' => 'required',
-            'postalcode' => 'required',
-            'phone' => 'required',
-            'email' => 'required|email',
-        ]);
+{
+    // Validate the form data
+    $validatedData = $request->validate([
+        'name' => 'required',
+        'address' => 'required',
+        'city' => 'required',
+        'country' => 'required',
+        'postalcode' => 'required',
+        'phone' => 'required',
+        'email' => 'required|email',
+    ]);
 
-        // Create a new order in the database
-        $order = Order::create([
-            'username' => $request->input('username'),
-            'address' => $request->input('address'),
-            'city' => $request->input('city'),
-            'country' => $request->input('country'),
-            'postalcode' => $request->input('postalcode'),
-            'phone' => $request->input('phone'),
-            'email' => $request->input('email'),
-            'total_price' => $totalPrice, // Set this variable to the total price of the order
-        ]);
+    $userId =  Auth::id();
+    // Create a new order
+    $order = new Order;
+    $order->user_id = $userId;
+    $order->name = $request->name;
+    $order->address = $request->address;
+    $order->city = $request->city;
+    $order->country = $request->country;
+    $order->postalcode = $request->postalcode;
+    $order->phone = $request->phone;
+    $order->email = $request->email;
+    $order->total_price = $request->totalprice;
+    $order->status = 'pending';
+    $order->save();
 
-        // Add the items ordered to the order
-        foreach($carts as $cart) {
-            $order->items()->create([
-                'product_name' => $cart->product_name,
-                'quantity' => $cart->cart_quantity,
-                'price' => $cart->product_price,
-            ]);
-        }
-
-        // Redirect the user to a confirmation page
-        return redirect()->route('orders.confirmation', ['order' => $order]);
+    // Attach products to the order
+    $carts = Cart::where('cart_userid', Auth::id())->get();
+    foreach ($carts as $cart) {
+        $product = Product::findOrFail($cart->cart_productid);
+        $order->products()->attach($product->id, ['quantity' => $cart->cart_quantity, 'price' => $product->product_price]);
+        $cart->delete();
     }
 
+    return redirect()->route('orders.show', ['orderId' => $order->id]);
+}
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

@@ -116,38 +116,39 @@
                             <form action="{{route('orders.store')}}" method="POST">
                                 @csrf
                                 <fieldset class="form-group border p-3 col">
+                                    <input type="hidden" name="user_id" value="{{Auth::id();}}">
                                     <h5 style="font-weight:600">Shipment Details</h5>
                                     <div class="form-group">
                                         <label for="username">Name:</label>
-                                        <input type="text" class="form-control username" id="username" name="username" value="{{$user->name}}">
+                                        <input type="text" class="form-control name" id="name" name="name" value="{{$user->name}}">
                                     </div>
                                     <div class="form-group">
                                         <label for="username">Address:</label>
-                                        <input type="text" class="form-control username" id="username" name="username" value="{{$user->address}}">
+                                        <input type="text" class="form-control address" id="address" name="address" value="{{$user->address}}">
                                     </div>
                                     <div class="form-group row">
                                         <div class="col">
                                             <label for="email">City:</label>
-                                            <input type="text" class="form-control" value="{{$user->city}}">
+                                            <input type="text" class="form-control city" id="city" name="city" value="{{$user->city}}">
                                           </div>
                                           <div class="col">
                                             <label for="email">Country:</label>
-                                            <input type="text" class="form-control" value="{{$user->country}}">
+                                            <input type="text" class="form-control country" id="country" name="country" value="{{$user->country}}">
                                           </div>
                                     </div>
                                     <div class="form-group row">
                                         <div class="col">
                                             <label for="email">Postal Code:</label>
-                                            <input type="text" class="form-control" value="{{$user->postalcode}}">
+                                            <input type="text" class="form-control postalcode" id="postalcode" name="postalcode" value="{{$user->postalcode}}">
                                           </div>
                                           <div class="col">
                                             <label for="email">Phone Number:</label>
-                                            <input type="text" class="form-control" value="{{$user->number}}">
+                                            <input type="text" class="form-control phone" id="phone" name="phone" value="{{$user->number}}">
                                           </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="username">Email Address:</label>
-                                        <input type="text" class="form-control username" id="username" name="username" value="{{$user->email}}">
+                                        <input type="text" class="form-control email" id="email" name="email" value="{{$user->email}}">
                                     </div>
                                 </fieldset>
                                 <br>
@@ -157,6 +158,8 @@
                                             <li>{{$cart->product_name}} x{{$cart->cart_quantity}}</li>
                                     @endforeach
                                     <br>
+                                    {{-- <input type="text" class="form-control " id="" name="" value="{{$user->email}}"> --}}
+                                    <input type="hidden" name="totalprice" value="{{$totalPrice}}">
                                     <h6 style="font-weight:600;" class="text-success">Total Cost:&nbspP{{ number_format($totalPrice, 2, '.', ',') }}</h6>
                                 </fieldset>
                                 </div>

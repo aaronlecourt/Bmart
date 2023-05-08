@@ -2,51 +2,75 @@
 @section('title', 'Orders')
 @section('content')
     <div class="d-flex container-fluid p-5 justify-content-center login-wrap">
-        <div class="bg-light rounded-0 shadow-sm p-4 testform" style="border:2px solid #dedede;">
-            <h4 style="font-weight:600; text-align:center;">Checkout Form</h4>
-            <p class="px-3" style="text-align:center">Enter Billing Details and view the following order details before placing your order.</p>
-            <fieldset class="form-group border p-3 col">
-                <h5 style="font-weight:600">Billing Details</h5>
-                <div class="form-group">
-                    <label for="username">Name:</label>
-                    <input type="text" class="form-control username" id="username" name="username">
-                </div>
-                <div class="form-group">
-                    <label for="username">Address:</label>
-                    <input type="text" class="form-control username" id="username" name="username">
-                </div>
-                <div class="form-group row">
-                    <div class="col">
-                        <label for="email">City:</label>
-                        <input type="text" class="form-control">
-                      </div>
-                      <div class="col">
-                        <label for="email">Country:</label>
-                        <input type="text" class="form-control">
-                      </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col">
-                        <label for="email">Post Code:</label>
-                        <input type="text" class="form-control">
-                      </div>
-                      <div class="col">
-                        <label for="email">Phone Number:</label>
-                        <input type="text" class="form-control">
-                      </div>
-                </div>
-                <div class="form-group">
-                    <label for="username">Email Address:</label>
-                    <input type="text" class="form-control username" id="username" name="username">
-                </div>
-            </fieldset>
-            <br>
-            <fieldset class="form-group border p-3 col">
-                <h5 style="font-weight:600">Order Details</h5>
-                <h6 style="font-weight:600">Total Cost:</h6>
-            </fieldset>
-            <br>
-            
-        </div>
+        <h1>Order Details</h1>
+
+<table>
+  <tr>
+    <td>Order ID:</td>
+    <td>{{ $order->id }}</td>
+  </tr>
+  <tr>
+    <td>Name:</td>
+    <td>{{ $order->name }}</td>
+  </tr>
+  <tr>
+    <td>Address:</td>
+    <td>{{ $order->address }}</td>
+  </tr>
+  <tr>
+    <td>City:</td>
+    <td>{{ $order->city }}</td>
+  </tr>
+  <tr>
+    <td>Country:</td>
+    <td>{{ $order->country }}</td>
+  </tr>
+  <tr>
+    <td>Postal Code:</td>
+    <td>{{ $order->postalcode }}</td>
+  </tr>
+  <tr>
+    <td>Phone:</td>
+    <td>{{ $order->phone }}</td>
+  </tr>
+  <tr>
+    <td>Email:</td>
+    <td>{{ $order->email }}</td>
+  </tr>
+  <tr>
+    <td>Total Cost:</td>
+    <td>{{ $order->total_price }}</td>
+  </tr>
+  <tr>
+    <td>Status:</td>
+    <td>{{ $order->status }}</td>
+  </tr>
+</table>
+
+<br>
+
+<h2>Order Items</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product Name</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Subtotal</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach ($order->items as $item)
+      <tr>
+        <td>{{ $item->product_name }}</td>
+        <td>{{ $item->quantity }}</td>
+        <td>{{ $item->price }}</td>
+        <td>{{ $item->subtotal }}</td>
+      </tr>
+    @endforeach
+  </tbody>
+</table>
+
     </div>
 @endsection

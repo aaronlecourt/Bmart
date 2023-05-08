@@ -9,18 +9,15 @@ class Order extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id',
-        'name',
-        'address',
-        'city',
-        'country',
-        'postal_code',
-        'phone_number',
-        'email',
-        'total_cost'
+        'name', 'address', 'city', 'country', 'postalcode', 'phone', 'email', 'total_price', 'status'
     ];
+
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
     public function products()
     {
-        return $this->belongsToMany(Product::class)->withPivot('quantity', 'price');
+        return $this->belongsToMany(Product::class, 'order_items')->withPivot('quantity', 'price');
     }
 }
