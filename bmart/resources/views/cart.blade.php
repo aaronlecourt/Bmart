@@ -81,20 +81,95 @@
           </tr>
           @endforeach
           <tr>
-              <th colspan="5">
+              <th colspan="3"> 
                 <form method="POST" action="{{ route('cart.clear') }}">
                     @csrf
                     <button type="submit" class="btn btn-secondary">Clear Cart</button>
-                    <button class="btn btn-success mx-2">Checkout</button>
-                </form>                
+                </form> 
+                               
                   
               </th>
-              <th colspan="3">
+              <th colspan="5">
                   <h5 style="font-weight:600" class="d-flex">Total:
-                      <span class="text-success"><h5 style="font-weight:600" id="total-price">&nbspP{{$totalPrice}}</h5>
+                      <span class="text-success"><h5 style="font-weight:600" id="total-price">&nbspP{{ number_format($totalPrice, 2, '.', ',') }}</h5>
                       </span>
                   </h5>
               </th>
+          </tr>
+          <tr>
+            <th colspan="8">
+                {{-- <button type="submit" class="btn btn-success w-100">Checkout</button> --}}
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#checkoutModal">
+                    Checkout
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg bg-success text-white">
+                        <h5 class="modal-title" style="font-weight:600" id="exampleModalLabel">Checkout</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{route('orders.store')}}" method="POST">
+                                @csrf
+                                <fieldset class="form-group border p-3 col">
+                                    <h5 style="font-weight:600">Shipment Details</h5>
+                                    <div class="form-group">
+                                        <label for="username">Name:</label>
+                                        <input type="text" class="form-control username" id="username" name="username" value="{{$user->name}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="username">Address:</label>
+                                        <input type="text" class="form-control username" id="username" name="username" value="{{$user->address}}">
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col">
+                                            <label for="email">City:</label>
+                                            <input type="text" class="form-control" value="{{$user->city}}">
+                                          </div>
+                                          <div class="col">
+                                            <label for="email">Country:</label>
+                                            <input type="text" class="form-control" value="{{$user->country}}">
+                                          </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col">
+                                            <label for="email">Postal Code:</label>
+                                            <input type="text" class="form-control" value="{{$user->postalcode}}">
+                                          </div>
+                                          <div class="col">
+                                            <label for="email">Phone Number:</label>
+                                            <input type="text" class="form-control" value="{{$user->number}}">
+                                          </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="username">Email Address:</label>
+                                        <input type="text" class="form-control username" id="username" name="username" value="{{$user->email}}">
+                                    </div>
+                                </fieldset>
+                                <br>
+                                <fieldset class="form-group border p-3 col">
+                                    <h5 style="font-weight:600">Order Summary</h5>
+                                    @foreach($carts as $cart)
+                                            <li>{{$cart->product_name}} x{{$cart->cart_quantity}}</li>
+                                    @endforeach
+                                    <br>
+                                    <h6 style="font-weight:600;" class="text-success">Total Cost:&nbspP{{ number_format($totalPrice, 2, '.', ',') }}</h6>
+                                </fieldset>
+                                </div>
+                                <div class="modal-footer">
+                                {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+                                <button type="submit" class="btn btn-success w-100">Place Order</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </th>
           </tr>
       </tbody>
       </table>

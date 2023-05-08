@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('category_id');
             $table->string('user_id');
             $table->string('product_name');
-            $table->integer('product_price');
+            $table->decimal('product_price',10,2);
             $table->integer('quantity');
             $table->string('description');
             $table->string('product_image');

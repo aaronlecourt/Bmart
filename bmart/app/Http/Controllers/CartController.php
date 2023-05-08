@@ -18,6 +18,8 @@ class CartController extends Controller
     {
         //
         $userId = Auth::id();
+        $user = Auth::user();
+
         $carts = DB::table('carts')
             ->join('categories', 'cart_categoryid', '=', 'categories.id')
             ->join('products', 'cart_productid', '=', 'products.id')
@@ -31,7 +33,7 @@ class CartController extends Controller
             return $cart->cart_quantity * $cart->product_price;
         });
 
-        return view('cart', compact('carts', 'totalPrice'));
+        return view('cart', compact('carts', 'totalPrice', 'user'));
     }
 
     /**

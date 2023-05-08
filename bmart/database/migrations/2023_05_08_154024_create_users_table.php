@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('name');
             $table->date('birthdate')->default(Carbon::create('0001', '01', '01'));
             $table->bigInteger('number')->default(0);
+            $table->string('address');
+            $table->string('city');
+            $table->string('country');
+            $table->string('postalcode');
             $table->string('email')->unique();
             $table->integer('isVendor')->default(0);
             $table->string('password');

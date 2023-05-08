@@ -23,7 +23,7 @@
                 @endif
 
                 <input id="product_name" placeholder="Product Name" type="text" class="form-control mt-3" name="product_name" value="{{$product->product_name}}" autofocus>
-                <input id="product_price" placeholder="Product Price" type="number" class="form-control mt-3" name="product_price" value="{{$product->product_price}}" autofocus>
+                <input id="product_price" placeholder="Product Price" type="number" class="form-control mt-3" step="0.01" name="product_price" value="{{$product->product_price}}" autofocus>
         <br>
                 <select name="category_id" id="category_id" class="form-select">
                     @foreach ($categories as $category)
