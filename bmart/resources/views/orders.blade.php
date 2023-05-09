@@ -19,6 +19,7 @@
                 <th>Status</th>
                 <th>Order Date:</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -32,19 +33,61 @@
                     <td>{{ $order->postalcode }}</td>
                     <td>{{ $order->phone }}</td>
                     <td>{{ $order->email }}</td> --}}
-                    <td>{{ $order->total_price }}</td>
+                    <td>P{{ $order->total_price }}</td>
                     <td>
                         <span class="bg bg-warning rounded-pill px-2">
                             {{ $order->status }}
                         </span>
                     </td>
                     <td>{{ $order->created_at->format('F d,Y') }}</td>
+                    
                     <td>
                         <button type="submit" class="btn btn-transparent">
                             <i class="fa-solid fa-xmark" style="font-size:15pt;"></i>
                         </button>
                     </td>
                 </tr>
+                
+                
+                <!-- Modal Body -->
+                {{-- <div class="modal fade" id="viewOrder" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" style="font-weight:600;" id="modalTitleId">View Order {{ $order->id }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <li></li>
+                                <li>{{ $order->name }}</li>
+                                <li>{{ $order->address }}</li>
+                                <li>{{ $order->city }}</li>
+                                <li>{{ $order->country }}</li>
+                                <li>{{ $order->postalcode }}</li>
+                                <li>{{ $order->phone }}</li>
+                                <li>{{ $order->email }}</li>
+                                <li>P{{ $order->total_price }}</li>
+                                <li>
+                                    <span class="bg bg-warning rounded-pill px-2">
+                                        {{ $order->status }}
+                                    </span>
+                                </li>
+                                <li>{{ $order->created_at->format('F d,Y') }}</li>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
+                
+                
+                <!-- Optional: Place to the bottom of scripts -->
+                <script>
+                    const myModal = new bootstrap.Modal(document.getElementById('modalId'), options)
+                
+                </script>
             @endforeach
         </tbody>
     </table>

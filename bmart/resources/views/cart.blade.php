@@ -100,9 +100,20 @@
             <th colspan="8">
                 {{-- <button type="submit" class="btn btn-success w-100">Checkout</button> --}}
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#checkoutModal">
-                    Checkout
-                </button>
+                @if(Auth::check())
+                    @php
+                        $cartCount = DB::table('carts')->where('cart_userid', Auth::id())->count();
+                    @endphp
+                    @if($cartCount > 0)
+                        <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#checkoutModal">
+                            Checkout
+                        </button>
+                    @else
+                        <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#checkoutModal" disabled>
+                            Cart is empty.
+                        </button>
+                    @endif
+                @endif
                 
                 <!-- Modal -->
                 <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

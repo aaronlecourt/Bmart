@@ -39,7 +39,10 @@ class UserAccess
 public function handle(Request $request, Closure $next, $isVendor)
 {
     if(auth()->user()->isVendor == $isVendor){
-        return $next($request);
+        return $next($request)
+        ->header('Cache-Control', 'no-cache, no-store, must-revalidate')
+        ->header('Pragma', 'no-cache')
+        ->header('Expires', '0');
     }
 
     if(auth()->user()->isVendor == 'buyer'){

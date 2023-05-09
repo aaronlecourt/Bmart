@@ -39,18 +39,28 @@ class OrderController extends Controller
         'email' => 'required|email',
     ]);
 
-    $userId =  Auth::id();
+    $userId = Auth::id();
+    // Update the user data
+    $user = Auth::user();
+    $user->name = $request->input('name');
+    $user->address = $request->input('address');
+    $user->city = $request->input('city');
+    $user->country = $request->input('country');
+    $user->postalcode = $request->input('postalcode');
+    $user->number = $request->input('phone');
+    $user->save();
+
     // Create a new order
     $order = new Order;
     $order->user_id = $userId;
-    $order->name = $request->name;
-    $order->address = $request->address;
-    $order->city = $request->city;
-    $order->country = $request->country;
-    $order->postalcode = $request->postalcode;
-    $order->phone = $request->phone;
-    $order->email = $request->email;
-    $order->total_price = $request->totalprice;
+    $order->name = $request->input('name');
+    $order->address = $request->input('address');
+    $order->city = $request->input('city');
+    $order->country = $request->input('country');
+    $order->postalcode = $request->input('postalcode');
+    $order->phone = $request->input('phone');
+    $order->email = $request->input('email');
+    $order->total_price = $request->input('totalprice');
     $order->status = 'pending';
     $order->save();
 
@@ -63,6 +73,6 @@ class OrderController extends Controller
     }
 
     return redirect()->route('orders.index', ['orderId' => $order->id]);
-}
 
+    }
 }
