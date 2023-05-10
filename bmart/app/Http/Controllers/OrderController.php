@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Cart;
+use Illuminate\Support\Facades\DB;
 use Auth;
 
 class OrderController extends Controller
@@ -16,6 +17,30 @@ class OrderController extends Controller
         $orders = Order::where('user_id', $userId)->paginate(5);
         return view('orders', compact('orders'));
     }
+
+    public function vendorOrders()
+    {
+        $vendorId = auth()->id();
+        $productIds = DB::table('products')
+            ->where('user_id', $vendorId)
+            ->pluck('id');
+        $orderIds = DB::table('order_items')
+            ->whereIn('product_id', $productIds)
+            ->pluck('order_id')
+            ->unique();
+        $orders = Order::whereIn('id', $orderIds)->with('items.product')->get();
+
+        foreach ($orders as $order) {
+            $totalPrice = 0;
+            foreach ($order->items as $item) {
+                $totalPrice += $item->quantity * $item->price;
+            }
+            $order->totalPrice = $totalPrice;
+        }
+
+        return view('vendorOrders', compact('orders'));
+    }
+
 
 
     // public function show($orderId)

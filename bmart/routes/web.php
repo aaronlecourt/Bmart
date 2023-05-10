@@ -46,4 +46,8 @@ Route::middleware(['auth', 'user-access:vendor'])->group(function(){
     Route::post('/vendor/profile', [UserController::class,'updateProfile'])->name('update-profile');
     // Route::post('/vendor/products/{product}', [ProductController::class, 'destroy']);
 
+
+    Route::get('/vendor/orders', [OrderController::class, 'vendorOrders'])->name('orders.vendor');
+
+
 });
