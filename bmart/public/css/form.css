@@ -8,6 +8,7 @@
     background-image: url('https://botble.b-cdn.net/farmart/storage/general/slider-bg.jpg');
 
 }
+
 select:invalid { color: gray; }
 .testform{
     width: 500px;

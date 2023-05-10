@@ -18,4 +18,8 @@ class Product extends Model
         'description',
         'product_image',
     ];
+    // public function orders()
+    // {
+    //     return $this->belongsToMany(Order::class)->withPivot('quantity', 'price');
+    // }
 }
