@@ -43,12 +43,17 @@ class HomeController extends Controller
 
         $prods = $query->paginate(12);
         // Append search parameter to pagination links
-        if ($request->has('search')) {
+        if ($request->has('search') && $request->input('search') != '') {
             $search = $request->input('search');
             $prods->appends(['search' => $search]);
+            // Count the number of search results
+            $count = $query->count();
+        }
+        else{
+            $count = 0;
         }
 
-        return view('home', compact('prods','categs','vend', 'srch', 'userId'));
+        return view('home', compact('prods','categs','vend', 'srch', 'userId', 'count'));
     }
     public function vendorHome(){
         return view('vendorHome');

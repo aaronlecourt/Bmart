@@ -6,13 +6,20 @@
     <form action="{{ route('categories.store') }}" method="post">
         @csrf
         <div class="mb-3 d-flex">
-            <select class="form-select me-2" name="category_id" id="category_id">
-                <option value="" hidden selected>Select a category</option>
-                @foreach ($remainingCategories as $category)
-                    <option value="{{ $category->category_id }}">{{ $category->category_name }}</option>
-                @endforeach
-            </select>
-            <input type="submit" value="Add Category" class="btn btn-success">
+                @if ($remainingCategories->isEmpty())
+                    <select class="form-select me-2 text-secondary" name="category_id" id="category_id" disabled>
+                        <option value="" selected >All categories are added.</option>
+                    </select>            
+                    <input type="submit" value="Add Category" class="btn btn-success" disabled>
+                @else
+                <select class="form-select me-2" name="category_id" id="category_id">
+                    <option value="" hidden selected>Select a category</option>
+                    @foreach ($remainingCategories as $category)
+                        <option value="{{ $category->category_id }}">{{ $category->category_name }}</option>
+                    @endforeach
+                </select>            
+                <input type="submit" value="Add Category" class="btn btn-success">
+                @endif
         </div>
     </form>    
     <hr>

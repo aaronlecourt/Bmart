@@ -23,7 +23,7 @@
         <table class="table sticky">
             <thead>
               <tr>
-                <td colspan="10" style="font-weight:600">No such product was found in your product records.</td>
+                <td colspan="10" style="font-weight:600">No product was found in your product records.</td>
               </tr>
                 <tr>
                     <th scope="col">#</th>
@@ -44,11 +44,13 @@
             </thead>
         </table>
         @else
-        <table class="table sticky">
+        <table class="table sticky table hover">
           <thead>
-            <tr>
-              <td colspan="10" style="font-weight:600">Showing {{$count}} result(s).</td>
-            </tr>
+            @if($count != 0)
+                <tr>
+                    <td colspan="10" style="font-weight:600">Showing {{$count}} result(s).</td>
+                </tr>
+            @endif
               <tr>
                   <th scope="col">#</th>
                   <th scope="col">Product Name</th>

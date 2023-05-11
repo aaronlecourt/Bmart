@@ -33,16 +33,20 @@ class ProductController extends Controller
         });        
     }
 
-    // Count the number of search results
-    $count = $query->count();
+    
 
     // Paginate the results
     $products = $query->paginate(3);
 
     // Append search parameter to pagination links
-    if ($request->has('search')) {
+    if ($request->has('search') && $request->input('search') != '') {
         $search = $request->input('search');
         $products->appends(['search' => $search]);
+        // Count the number of search results
+        $count = $query->count();
+    }
+    else{
+        $count = 0;
     }
 
     // Pass the count and products to the view
@@ -65,7 +69,7 @@ class ProductController extends Controller
                 ->where('deleted', 0);
         })
         ->get();      
-        
+
         return view('products_create', compact('products','categories'));
     }
 

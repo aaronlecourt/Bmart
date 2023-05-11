@@ -3,6 +3,12 @@
 @section('content')
 <div class="container-fluid login-wrap">
     <div class="testform">
+        @if(session()->has('error'))
+        <div class="bg-danger alert rounded-3">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+            {{ session()->get('error') }}
+        </div>
+        @endif
         <h4>Register an Account</h4>
         <hr>
         <form method="POST" action="{{ route('register') }}">
@@ -40,10 +46,10 @@
                 @enderror
             <br>
             <p style="font-size:10pt;">Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy.</p>
-                <div class="form-check checkterms">
+                {{-- <div class="form-check checkterms">
                     <input class="form-check-input" type="checkbox" value="1" id="termsCond"> I agree with the Terms & Conditions.
-                </div>
-            <br>
+                </div> --}}
+            {{-- <br> --}}
             <button type="submit" class="btn btn-warning w-100 mt-3 regist-btn">
                 {{ __('Register') }}
             </button>
