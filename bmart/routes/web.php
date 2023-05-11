@@ -32,9 +32,9 @@ Route::middleware(['auth', 'user-access:buyer'])->group(function(){
     // Show order details
     // Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show');
 
-    // Create new order
-    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
-    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    // // Create new order
+    // Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    // Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     });
 
 //Seller Route List
@@ -47,7 +47,7 @@ Route::middleware(['auth', 'user-access:vendor'])->group(function(){
     // Route::post('/vendor/products/{product}', [ProductController::class, 'destroy']);
 
 
-    Route::get('/vendor/orders', [OrderController::class, 'vendorOrders'])->name('orders.vendor');
+    // Route::get('/vendor/orders', [OrderController::class, 'vendorOrders'])->name('orders.vendor');
 
 
 });

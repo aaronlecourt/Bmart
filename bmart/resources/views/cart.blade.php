@@ -124,7 +124,7 @@
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="{{route('orders.store')}}" method="POST">
+                            <form action="" method="POST">
                                 @csrf
                                 <fieldset class="form-group border p-3 col">
                                     <input type="hidden" name="user_id" value="{{Auth::id();}}">
