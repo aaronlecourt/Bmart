@@ -22,6 +22,9 @@
       @if($products->isEmpty())
         <table class="table sticky">
             <thead>
+              <tr>
+                <td colspan="10" style="font-weight:600">No such product was found in your product records.</td>
+              </tr>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Product Name</th>
@@ -39,15 +42,13 @@
                     </th>
                 </tr>
             </thead>
-            <tbody>
-                  <tr>
-                    <td colspan="10" style="text-align:center;">No such product was found in your product records.</td>
-                  </tr>
-            </tbody>
         </table>
         @else
         <table class="table sticky">
           <thead>
+            <tr>
+              <td colspan="10" style="font-weight:600">Showing {{$count}} result(s).</td>
+            </tr>
               <tr>
                   <th scope="col">#</th>
                   <th scope="col">Product Name</th>

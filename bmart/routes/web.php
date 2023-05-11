@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CategoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,6 +46,7 @@ Route::middleware(['auth', 'user-access:vendor'])->group(function(){
     Route::get('/vendor/profile', [UserController::class,'changeProfile'])->name('change-profile');
     Route::post('/vendor/profile', [UserController::class,'updateProfile'])->name('update-profile');
     // Route::post('/vendor/products/{product}', [ProductController::class, 'destroy']);
+    Route::resource('/vendor/categories', CategoryController::class);
 
 
     // Route::get('/vendor/orders', [OrderController::class, 'vendorOrders'])->name('orders.vendor');

@@ -114,6 +114,7 @@
                 <li><a href="/vendor/profile">My Profile</a></li>
                 <li><a href="/vendor/products">Products</a></li>
                 <li><a href="/vendor/orders">Orders</a></li>
+                <li><a href="/vendor/categories">Categories</a></li>
             </div>
 
             

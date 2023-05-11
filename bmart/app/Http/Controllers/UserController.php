@@ -19,6 +19,7 @@ class UserController extends Controller
                 'user_name' => 'required|string',
                 'user_number' => 'required|max:11',
                 'user_email' => 'required|email|string',
+                'user_address'=>'required'
             ]);
             
             User::whereId(Auth()->user()->id)->update([

@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\CategoryVendor;
 use Auth;
 
 class ProductController extends Controller
 {
     public function index(Request $request)
-{
+    {
     $userId = Auth::id();
     $query = DB::table('products')
         ->join('categories', 'products.category_id', '=', 'categories.id')
@@ -32,7 +33,11 @@ class ProductController extends Controller
         });        
     }
 
-    $products = $query->paginate(5);
+    // Count the number of search results
+    $count = $query->count();
+
+    // Paginate the results
+    $products = $query->paginate(3);
 
     // Append search parameter to pagination links
     if ($request->has('search')) {
@@ -40,14 +45,27 @@ class ProductController extends Controller
         $products->appends(['search' => $search]);
     }
 
-    return view('vendorHome', compact('products'));
-}
+    // Pass the count and products to the view
+    return view('vendorHome', compact('products', 'count'));
+    }
+
 
 
     public function create()
     {
         $products = Product::all();
-        $categories = Category::all();
+        // $categories = Category::all();
+        $userId = Auth::id();
+        
+        $categories = Category::whereDoesntHave('vendors', function($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })
+        ->orWhereHas('vendors', function($query) use ($userId) {
+            $query->where('user_id', $userId)
+                ->where('deleted', 0);
+        })
+        ->get();      
+        
         return view('products_create', compact('products','categories'));
     }
 
@@ -62,23 +80,32 @@ class ProductController extends Controller
             'description'=>'required',
             'product_image'=>'required|mimes:jpg,png,jpeg|max:5048',
         ]);
-        
-        $imageName = time().'-'.$request->product_name.'.'. $request->product_image->extension();
-        $request->product_image->move(public_path('product_image'), $imageName);
-        // dd($test);
-
-        $product = Product::create([
-            'user_id' => $request->input('user_id'),
-            'product_name' => $request->input('product_name'),
-            'product_price' => $request->input('product_price'),
-            'category_id' => $request->input('category_id'),
-            'quantity'=> $request->input('quantity'),
-            'description' => $request->input('description'),
-            'product_image'=> $imageName
-        ]);
-
-        return redirect()->route('vendor.home')->with('message','You have successfully added a product!');
+    
+        $userId = Auth::id();
+        $existingProduct = Product::where('user_id', $userId)
+                                   ->where('product_name', $request->input('product_name'))
+                                   ->first();
+    
+        if ($existingProduct) {
+            return redirect()->back()->with('error', 'You already added "'.$existingProduct->product_name.'" as a product!');
+        } else {
+            $imageName = time().'-'.$request->product_name.'.'. $request->product_image->extension();
+            $request->product_image->move(public_path('product_image'), $imageName);
+    
+            $product = Product::create([
+                'user_id' => $request->input('user_id'),
+                'product_name' => $request->input('product_name'),
+                'product_price' => $request->input('product_price'),
+                'category_id' => $request->input('category_id'),
+                'quantity'=> $request->input('quantity'),
+                'description' => $request->input('description'),
+                'product_image'=> $imageName
+            ]);
+    
+            return redirect()->route('vendor.home')->with('message','You have successfully added a product!');
+        }
     }
+    
 
     public function show(Product $product)
     {

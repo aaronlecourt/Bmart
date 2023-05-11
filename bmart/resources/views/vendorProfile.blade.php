@@ -36,6 +36,10 @@
                     @error('user_email')
                         <span class="text-danger" style="font-weight: 600; font-size: 10px">{{$message}}</span>
                     @enderror
+                <input id="user_address" placeholder="address" type="text" class="form-control mt-3 @error('user_address') is-invalid @enderror" name="user_email" value="{{auth()->user()->address}}" autofocus>
+                    @error('user_address')
+                        <span class="text-danger" style="font-weight: 600; font-size: 10px">{{$message}}</span>
+                    @enderror
                 <br>
                 <button type="submit" class="btn btn-primary w-100" name="profileEdit">Edit Profile</button>
             </form>

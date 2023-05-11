@@ -3,8 +3,15 @@
 @section('content')
     <div class="d-flex container-fluid p-5 justify-content-center login-wrap">
         <div class="bg-light rounded-0 shadow-sm p-4 testform" style="border:2px solid #dedede;">
-            <h3>Add a New Product</h3><hr>
             
+            <h3>Add a New Product</h3><hr>
+            @if(session()->has('error'))
+            <div class="bg-danger alert rounded-3">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                {{ session()->get('error') }}
+            </div>
+            <hr>
+            @endif
             <form action="{{route('products.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @if ($errors->any())
