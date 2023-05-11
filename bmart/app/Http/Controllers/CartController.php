@@ -24,7 +24,7 @@ class CartController extends Controller
             ->join('categories', 'cart_categoryid', '=', 'categories.id')
             ->join('products', 'cart_productid', '=', 'products.id')
             ->join('users', 'products.user_id', '=', 'users.id')
-            ->select('products.*', 'categories.*', 'users.name AS vendor_name', 'carts.id AS cart_id', 'carts.cart_quantity AS cart_quantity')
+            ->select('products.*', 'categories.*', 'users.name AS vendor_name', 'users.id AS vendor_id','carts.id AS cart_id', 'carts.cart_quantity AS cart_quantity')
             ->where('cart_userid', '=', $userId)
             ->orderBy('carts.id')
             ->get();

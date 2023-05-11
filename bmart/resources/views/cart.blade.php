@@ -68,7 +68,7 @@
                 </form>
             </td>                     
               <td data-item-price="{{$cart->cart_quantity*$cart->product_price}}">{{$cart->cart_quantity*$cart->product_price}}</td>
-              <td>{{$cart->vendor_name}}</td>
+              <td>({{$cart->vendor_id}}) {{$cart->vendor_name}}</td>
               <td class="actions">
                   <form method="POST" action="{{route('cart.destroy', $cart->cart_id) }}">
                       @csrf
