@@ -1,7 +1,7 @@
 @extends('layouts.app2')
 @section('title', 'Vendor Orders')
 @section('content')
-<style>
+{{-- <style>
     .card {
       display: flex;
       flex-direction: column;
@@ -10,10 +10,11 @@
     li{
         list-style: none;
     }
-    </style>
+    </style> --}}
     
     <div class="container-fluid p-5 login-wrap">
-      <div class="row justify-content-center">
+
+      {{-- <div class="row justify-content-center">
         @foreach ($orders as $order)
           <div class="col-xl-4 col-md-6 mb-4">
             <div class="card p-4 h-100">
@@ -40,7 +41,6 @@
             </div>
           </div>
         @endforeach
-      </div>
+      </div> --}}
     </div>
-    
 @endsection

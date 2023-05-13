@@ -56,9 +56,9 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-title">{{$prod->product_name}}</h5>
                                     <input type="hidden" value="{{$userId}}" name="userid">
-                                    <input type="hidden" value="{{$prod->prod_id}}" name="product_id">
+                                    <input type="hidden" value="{{$prod->prod_id}}" name="product_ids[]">
                                 <h5 class="card-text"><b>P{{$prod->product_price}}</b></h5>
-                                    <input type="hidden" value="{{$prod->product_price}}" name="product_price">
+                                    <input type="hidden" value="{{$prod->product_price}}" name="prices[]">
                             </div>
                             
                             <p class="card-text">{{$prod->description}}</p>
@@ -66,7 +66,8 @@
                                 <small class="card-text">{{$prod->category_name}} | {{$prod->name}}</small>
                                     <input type="hidden" value="{{$prod->categ_id}}" name="categ_id">
                                     <input type="hidden" value="{{$prod->name}}" name="vendor_name">
-                                <input type="number" class="form-control w-50" value="0" name="quantity"/>
+                                    <input type="hidden" value="{{$prod->vendor_id}}" name="vendor_ids[]">
+                                <input type="number" class="form-control w-50" value="0" name="quantities[]"/>
                                 {{-- <span class="input-group-text">Quantity:{{$prod->quantity}}</span> --}}
                             </div>
                             <br>

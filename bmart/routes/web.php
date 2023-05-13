@@ -30,12 +30,16 @@ Route::middleware(['auth', 'user-access:buyer'])->group(function(){
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::resource('/cart', CartController::class);
     Route::match(['get', 'post'], '/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+
+    // Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+
     // Show order details
     // Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show');
 
     // // Create new order
-    // Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
-    // Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::post('/orders/{orderId}', [OrderController::class, 'cancel'])->name('orders.cancel');
     });
 
 //Seller Route List
@@ -49,7 +53,7 @@ Route::middleware(['auth', 'user-access:vendor'])->group(function(){
     Route::resource('/vendor/categories', CategoryController::class);
 
 
-    // Route::get('/vendor/orders', [OrderController::class, 'vendorOrders'])->name('orders.vendor');
+    Route::get('/vendor/orders', [OrderController::class, 'vendorOrders'])->name('orders.vendor');
 
 
 });

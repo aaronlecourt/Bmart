@@ -16,6 +16,7 @@ return new class extends Migration
             $table->bigInteger('cart_userid');
             $table->bigInteger('cart_productid');
             $table->bigInteger('cart_categoryid');
+            $table->bigInteger('cart_vendorid');
             $table->integer('cart_quantity');
             $table->integer('cart_price');
             $table->timestamps();

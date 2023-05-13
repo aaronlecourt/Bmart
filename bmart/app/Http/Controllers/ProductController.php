@@ -151,9 +151,13 @@ class ProductController extends Controller
     }
     
     public function destroy(Product $product)
-    {        
-        // Check if the user is authenticated
-        if (auth()->Check()) {
+    {
+    // Check if the product is in any orders
+    if ($product->orderItems()->count() > 0) {
+        return redirect()->back()->with('error', 'Failed to delete the product. There are orders with this product.');
+    }
+    // Check if the user is authenticated
+    if (auth()->Check()) {
         // Get the authenticated user
         $user = Auth()->user();
         
@@ -164,7 +168,7 @@ class ProductController extends Controller
             return redirect()->route('vendor.home')->with('message', 'Product deleted successfully!');
         }
     }
-    
+
     // If the password doesn't match, redirect back with an error message
     return redirect()->back()->with('error', 'Incorrect password. Failed to delete the product.');
     }

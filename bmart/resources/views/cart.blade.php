@@ -5,7 +5,7 @@
 <div id="section-cont" class="p-5">
 <h3 style="font-weight:600; text-align:center;">Hello {{Auth()->user()->name}}!</h3>
 <h6 style="text-align:center;">Here is an overview of the products added to your cart!</h6>
-@if(session()->has('message'))
+                @if(session()->has('message'))
                   <div class="bg-success alert rounded-3">
                       <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
                       {{ session()->get('message') }}
@@ -125,62 +125,68 @@
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="" method="POST">
+                            <form id="orderForm" method="POST" action="{{ route('orders.store') }}">
                                 @csrf
                                 <fieldset class="form-group border p-3 col">
                                     <input type="hidden" name="user_id" value="{{Auth::id();}}">
                                     <h5 style="font-weight:600">Shipment Details</h5>
                                     <div class="form-group">
                                         <label for="username">Name:</label>
-                                        <input type="text" class="form-control name" id="name" name="name" value="{{$user->name}}">
+                                        <input type="text" class="form-control name required" id="name" name="name" value="{{$user->name}}">
                                     </div>
                                     <div class="form-group">
                                         <label for="username">Address:</label>
-                                        <input type="text" class="form-control address" id="address" name="address" value="{{$user->address}}">
+                                        <input type="text" class="form-control address required" id="address" name="address" value="{{$user->address}}">
                                     </div>
                                     <div class="form-group row">
                                         <div class="col">
                                             <label for="email">City:</label>
-                                            <input type="text" class="form-control city" id="city" name="city" value="{{$user->city}}">
-                                          </div>
-                                          <div class="col">
+                                            <input type="text" class="form-control city required" id="city" name="city" value="{{$user->city}}">
+                                        </div>
+                                        <div class="col">
                                             <label for="email">Country:</label>
-                                            <input type="text" class="form-control country" id="country" name="country" value="{{$user->country}}">
-                                          </div>
+                                            <input type="text" class="form-control country required" id="country" name="country" value="{{$user->country}}">
+                                        </div>
                                     </div>
                                     <div class="form-group row">
                                         <div class="col">
                                             <label for="email">Postal Code:</label>
-                                            <input type="text" class="form-control postalcode" id="postalcode" name="postalcode" value="{{$user->postalcode}}">
-                                          </div>
-                                          <div class="col">
+                                            <input type="text" class="form-control postalcode required" id="postalcode" name="postalcode" value="{{$user->postalcode}}">
+                                        </div>
+                                        <div class="col">
                                             <label for="email">Phone Number:</label>
-                                            <input type="text" class="form-control phone" id="phone" name="phone" value="{{$user->number}}">
-                                          </div>
+                                            <input type="text" class="form-control phone required" id="phone" name="phone" value="{{$user->number}}">
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="username">Email Address:</label>
-                                        <input type="text" class="form-control email" id="email" name="email" value="{{$user->email}}">
+                                        <input type="text" class="form-control email required" id="email" name="email" value="{{$user->email}}">
                                     </div>
                                 </fieldset>
                                 <br>
                                 <fieldset class="form-group border p-3 col">
                                     <h5 style="font-weight:600">Order Summary</h5>
                                     @foreach($carts as $cart)
-                                            <li>{{$cart->product_name}} x{{$cart->cart_quantity}} sold by: Vendor #{{$cart->vendor_id}}-{{$cart->vendor_name}}</li>
+                                    
+                                        <li>P{{$cart->cart_price*$cart->cart_quantity}}-{{$cart->product_name}} x{{$cart->cart_quantity}} sold by: Vendor #{{$cart->vendor_id}}-{{$cart->vendor_name}}</li>
                                     @endforeach
                                     <br>
-                                    {{-- <input type="text" class="form-control " id="" name="" value="{{$user->email}}"> --}}
-                                    
                                     <input type="hidden" name="totalprice" value="{{$totalPrice}}">
                                     <h6 style="font-weight:600;" class="text-success">Total Cost:&nbspP{{ number_format($totalPrice, 2, '.', ',') }}</h6>
                                 </fieldset>
-                                </div>
                                 <div class="modal-footer">
-                                {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
-                                <button type="submit" class="btn btn-success w-100">Place Order</button>
+                                    @foreach($carts as $cart)
+                                    <input type="hidden" name="cart_userid" value="{{$user->id}}">
+                                    <input type="hidden" name="cart_categoryid" value="{{$cart->category_id}}">
+
+                                        <input type="hidden" name="product_ids[]" value="{{$cart->product_id}}">
+                                        <input type="hidden" name="vendor_ids[]" value="{{$cart->vendor_id}}">
+                                        <input type="hidden" name="quantities[]" value="{{$cart->cart_quantity}}">
+                                        <input type="hidden" name="prices[]" value="{{$cart->product_price}}">
+                                    @endforeach
+                                    <button type="submit" id="placeOrderBtn" class="btn btn-success w-100">Place Order</button>
                                 </div>
-                            </form>
+                            </form>                          
                         </div>
                     </div>
                     </div>
@@ -207,7 +213,9 @@ $(document).ready(function() {
         $(this).parents(".input-group").siblings(".cart-quantity").show();
         $(this).parents(".input-group").siblings(".edit-cart").show();
     });
+    
 });
+
 
 </script>   
 @endsection

@@ -32,11 +32,11 @@
                     @error('user_number')
                         <span class="text-danger" style="font-weight: 600; font-size: 10px">{{$message}}</span>
                     @enderror
-                <input id="user_email" placeholder="Email" type="text" class="form-control mt-3 @error('user_email') is-invalid @enderror" name="user_email" value="{{auth()->user()->email}}" autofocus>
+                <input id="user_email" placeholder="Email" type="email" class="form-control mt-3 @error('user_email') is-invalid @enderror" name="user_email" value="{{auth()->user()->email}}" autofocus>
                     @error('user_email')
                         <span class="text-danger" style="font-weight: 600; font-size: 10px">{{$message}}</span>
                     @enderror
-                <input id="user_address" placeholder="address" type="text" class="form-control mt-3 @error('user_address') is-invalid @enderror" name="user_email" value="{{auth()->user()->address}}" autofocus>
+                <input id="user_address" placeholder="Address" type="text" class="form-control mt-3 @error('user_address') is-invalid @enderror" name="user_address" value="{{auth()->user()->address}}" autofocus>
                     @error('user_address')
                         <span class="text-danger" style="font-weight: 600; font-size: 10px">{{$message}}</span>
                     @enderror
