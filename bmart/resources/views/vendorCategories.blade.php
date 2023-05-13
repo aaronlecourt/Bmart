@@ -2,6 +2,18 @@
 @section('title', 'Categories')
 @section('content')
 <div id="section-cont" class="p-5">
+    @if(session()->has('message'))
+        <div class="bg-success alert rounded-3">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+            {{ session()->get('message') }}
+        </div>
+        @endif
+        @if(session()->has('error'))
+        <div class="bg-danger alert rounded-3">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+            {{ session()->get('error') }}
+        </div>
+        @endif
     <h5 style="font-weight:600">Add Categories +</h5>
     <form action="{{ route('categories.store') }}" method="post">
         @csrf

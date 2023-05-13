@@ -107,32 +107,38 @@ class CategoryController extends Controller
         // Get the logged-in user's ID
         $userId = Auth::id();
     
-        // Check if the category is associated with the user
-        $categoryVendor = CategoryVendor::where('user_id', $userId)
+        // Check if the category is associated with the user's product
+        $product = Product::where('user_id', $userId)
             ->where('category_id', $category->id)
             ->first();
     
-        if ($categoryVendor) {
-            // If the category is associated with the user, update the "deleted" column
-            $categoryVendor->deleted = 1;
-            $categoryVendor->save();
+        if ($product) {
+            // If the category is associated with the user's product, redirect back with an error message
+            return redirect()->back()->with('error', 'Cannot delete category. One or more products are under this category.');
         } else {
-            // If the category is not associated with the user, create a new mapping with the "deleted" column set to 1
-            CategoryVendor::create([
-                'user_id' => $userId,
-                'category_id' => $category->id,
-                'deleted' => 1
-            ]);
+            // If the category is not associated with the user's product, update or create the category vendor mapping with the "deleted" column set to 1
+            $categoryVendor = CategoryVendor::where('user_id', $userId)
+                ->where('category_id', $category->id)
+                ->first();
+    
+            if ($categoryVendor) {
+                // If the category is associated with the user, update the "deleted" column
+                $categoryVendor->deleted = 1;
+                $categoryVendor->save();
+            } else {
+                // If the category is not associated with the user, create a new mapping with the "deleted" column set to 1
+                CategoryVendor::create([
+                    'user_id' => $userId,
+                    'category_id' => $category->id,
+                    'deleted' => 1
+                ]);
+            }
+    
+            // Redirect back to the index page with a success message
+            return redirect()->route('categories.index')->with('message', 'Category has been deleted.');
         }
-    
-        // Delete all associated products with the category
-        Product::where('user_id', $userId)
-            ->where('category_id', $category->id)
-            ->delete();
-    
-        // Redirect back to the index page with a success message
-        return redirect()->route('categories.index')->with('success', 'Category has been deleted.');
     }
+    
     
     
 }

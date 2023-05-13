@@ -103,6 +103,7 @@
                 @if(Auth::check())
                     @php
                         $cartCount = DB::table('carts')->where('cart_userid', Auth::id())->count();
+                        // dd($cartCount);
                     @endphp
                     @if($cartCount > 0)
                         <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#checkoutModal">
@@ -166,10 +167,11 @@
                                 <fieldset class="form-group border p-3 col">
                                     <h5 style="font-weight:600">Order Summary</h5>
                                     @foreach($carts as $cart)
-                                            <li>{{$cart->product_name}} x{{$cart->cart_quantity}}</li>
+                                            <li>{{$cart->product_name}} x{{$cart->cart_quantity}} sold by: Vendor #{{$cart->vendor_id}}-{{$cart->vendor_name}}</li>
                                     @endforeach
                                     <br>
                                     {{-- <input type="text" class="form-control " id="" name="" value="{{$user->email}}"> --}}
+                                    
                                     <input type="hidden" name="totalprice" value="{{$totalPrice}}">
                                     <h6 style="font-weight:600;" class="text-success">Total Cost:&nbspP{{ number_format($totalPrice, 2, '.', ',') }}</h6>
                                 </fieldset>

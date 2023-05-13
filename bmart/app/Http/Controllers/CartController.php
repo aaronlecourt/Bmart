@@ -33,6 +33,9 @@ class CartController extends Controller
             return $cart->cart_quantity * $cart->product_price;
         });
 
+        // Delete any cart item that has a product_id that is not in the Product table
+        $cartItemsToDelete = DB::table('carts')->whereNotIn('cart_productid', Product::pluck('id')->toArray())->delete();
+        
         return view('cart', compact('carts', 'totalPrice', 'user'));
     }
 
@@ -50,31 +53,44 @@ class CartController extends Controller
     public function store(Request $request)
     {
         $quantity = $request->input('quantity');
-
-        if ($quantity <= 0) {
-            return redirect()->back()->with('error', 'Failed to add to cart! Quantity must be 1+.');
+        $productId = $request->input('product_id');
+        $userId = $request->input('userid');
+        
+        // Check if product exists in the Product table
+        $product = Product::find($productId);
+        if (!$product) {
+            // If product doesn't exist, delete it from the cart
+            Cart::where('cart_productid', $productId)
+                ->where('cart_userid', $userId)
+                ->delete();
+            return redirect()->back()->with('error', 'The selected product is no longer available.');
         }
-
-        $cartItem = Cart::where('cart_productid', $request->input('product_id'))
-                        ->where('cart_userid', $request->input('userid'))
+        
+        if ($quantity <= 0) {
+            return redirect()->back()->with('error', 'Quantity must be greater than 0.');
+        }
+        
+        $cartItem = Cart::where('cart_productid', $productId)
+                        ->where('cart_userid', $userId)
                         ->first();
-
+    
         if ($cartItem) {
             $cartItem->cart_quantity += $quantity;
             $cartItem->save();
         } else {
             $cartItem = new Cart([
-                'cart_userid' => $request->input('userid'),
-                'cart_productid' => $request->input('product_id'),
+                'cart_userid' => $userId,
+                'cart_productid' => $productId,
                 'cart_categoryid' => $request->input('categ_id'),
                 'cart_quantity' => $quantity,
-                'cart_price' => $request->input('product_price')
+                'cart_price' => $product->product_price
             ]);
             $cartItem->save();
         }
-
+        
         return redirect()->back()->with('message', 'Successfully added to cart!');
     }
+    
     /**
      * Display the specified resource.
      */

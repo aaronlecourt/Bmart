@@ -56,6 +56,6 @@ class HomeController extends Controller
         return view('home', compact('prods','categs','vend', 'srch', 'userId', 'count'));
     }
     public function vendorHome(){
-        return view('vendorHome');
+        return view('vendorHome', compact('products'));
     }
 }

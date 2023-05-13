@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('vendor_id');
             $table->unsignedInteger('quantity')->default(0);
             $table->decimal('product_price', 8, 2)->default(0.00);
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('vendor_id')->references('id')->on('users')->where('isVendor', 1)->onDelete('cascade');
             $table->timestamps();
         });
     }
