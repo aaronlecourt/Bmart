@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('country');
             $table->string('postal_code');
             $table->string('phone_number');
-            $table->enum('status', ['pending', 'cancelled', 'confirmed'])->default('pending');
+            // $table->enum('status', ['pending', 'cancelled', 'confirmed'])->default('pending');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 

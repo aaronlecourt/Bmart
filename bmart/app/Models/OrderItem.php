@@ -13,7 +13,10 @@ class OrderItem extends Model
         'product_id',
         'vendor_id',
         'quantity',
-        'product_price'
+        'product_price',
+        'status',
+        'cancel_req',
+        'cancel_status'
     ];
 
     public function order()

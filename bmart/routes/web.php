@@ -39,7 +39,9 @@ Route::middleware(['auth', 'user-access:buyer'])->group(function(){
     // // Create new order
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-    Route::post('/orders/{orderId}', [OrderController::class, 'cancel'])->name('orders.cancel');
+    Route::post('/orders/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+    // Route::post('/orders', [OrderController::class, 'confirm'])->name('orders.confirm');
+
     });
 
 //Seller Route List
@@ -54,6 +56,8 @@ Route::middleware(['auth', 'user-access:vendor'])->group(function(){
 
 
     Route::get('/vendor/orders', [OrderController::class, 'vendorOrders'])->name('orders.vendor');
+    Route::post('/vendor/orders', [OrderController::class, 'confirm'])->name('orders.confirm');
+    // Route::post('/vendor/orders', [OrderController::class, 'deliver'])->name('orders.deliver');
 
 
 });

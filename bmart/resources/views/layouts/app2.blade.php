@@ -115,6 +115,7 @@
                 <li><a href="/vendor/products">Products</a></li>
                 <li><a href="/vendor/orders">Orders</a></li>
                 <li><a href="/vendor/categories">Categories</a></li>
+                <li><a href="/">Sales Report</a></li>
             </div>
 
             
@@ -125,7 +126,7 @@
             @yield('content')
         </main>
     </div>
-    <footer>
+    <footer class="fixed-bottom">
         <div class="nav-foot">
             <div class="container-fluid row foot-top">
                 <div class="col-lg-2 col-md-4 col-sm-12 foot-top-content d-flex">

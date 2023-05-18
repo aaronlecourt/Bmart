@@ -53,6 +53,7 @@ class CartController extends Controller
     public function store(Request $request)
     {
         // dd($request);
+        $qty = $request->input('prod_quantity');
         $quantities = $request->input('quantities');
         $vendorId = $request->input('vendor_ids');
         $productId = $request->input('product_ids');
@@ -76,13 +77,20 @@ class CartController extends Controller
             $productIndex = array_search($productId[$i], $productId);
             $price = $prices[$productIndex];
             $quantity = $quantities[$productIndex];
-    
+
+            
+            // dd($quantity);
             if ($quantity <= 0) {
                 // If quantity is less than or equal to 0, delete the product from the cart
                 Cart::where('cart_productid', $productId[$i])
                     ->where('cart_userid', $userId)
                     ->delete();
-                return redirect()->back()->with('error', 'Quantity must be greater than 0.');
+                return redirect()->back()->with('error', 'Order quantity must be greater than 0.');
+            }
+
+            //check if order qty is more than what is in the products
+            if($qty < $quantity){
+                return redirect()->back()->with('error', 'Cannot order more than the remaining product quantity.');
             }
             
             $cartItem = Cart::where('cart_productid', $productId[$i])
