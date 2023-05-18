@@ -143,6 +143,11 @@ class OrderController extends Controller
 
         else if($action == 'markRejected'){
             foreach ($orderItems as $item) {
+                $productId = $item->product_id;
+                $product = Product::find($productId);
+                $quantity = $item->quantity;
+                $product->quantity -= $quantity;
+                $product->save();
                 $item->status = 'request rejected';
                 $item->save();
             }

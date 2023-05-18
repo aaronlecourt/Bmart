@@ -84,6 +84,8 @@
                         <input type="hidden" name="order_id" value="{{$orderId}}"/>
                         <input type="hidden" name="vendor_id" value="{{$orderItems->first()->vendor_id}}"/>
                         <button type="submit" style="font-weight:600" class="btn btn-transparent px-1 py-0" name="action" value="removeList">Remove from list</button>
+                    @elseif($orderItems->first()->status == 'request rejected')
+                        <button type="button" style="font-weight:600" class="btn btn-transparent text-secondary px-1 py-0" name="action" disable>Cancel request was rejected. Order will proceed.</button>
                     @else
                         <button type="button" style="font-weight:600; border:none; opacity:0;" disabled>Cancel Order</button>
                     @endif
