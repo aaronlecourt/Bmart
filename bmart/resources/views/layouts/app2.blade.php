@@ -117,8 +117,6 @@
                 <li><a href="/vendor/categories">Categories</a></li>
                 <li><a href="/">Sales Report</a></li>
             </div>
-
-            
         </div>
      </nav>
     @show
