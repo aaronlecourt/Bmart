@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Auth;
 
 class OrderController extends Controller
-{    
-
+{
     public function index()
     {
         $userId = auth()->id();
@@ -65,98 +64,34 @@ class OrderController extends Controller
     
         return view('orders', compact('vendorOrders','list'));
     }
-    
+
+    public function vendorOrders()
+    {
+        $vendorId = auth()->id();
         
-    
-    // public function index()
-    // {
-    // $userId = auth()->id(); 
-    //     // Retrieve all orders made by the logged in user with eager loading for orders and order items
-    //     $orders = Order::with('items.product')
-    //     ->where('user_id', $userId)
-    //     ->orderBy('created_at')
-    //     ->get();
-    
-    // // Separate orders by order and order item
-    // $ordersByOrder = collect();
-    // foreach ($orders as $order) {
-    //     foreach ($order->items as $orderItem) {
-    //         $orderId = $order->id;
-    //         $orderItemsByOrder = $ordersByOrder->where('order_id', $orderId)->first();
-    //         if (!$orderItemsByOrder) {
-    //             $orderItemsByOrder = new \stdClass();
-    //             $orderItemsByOrder->order_id = $orderId;
-    //             $orderItemsByOrder->vendor_name = $orderItem->vendor->name;
-    //             $orderItemsByOrder->address = $order->address;
-    //             $orderItemsByOrder->total_price = 0;
-    //             $orderItemsByOrder->status = $orderItem->status;
-    //             $orderItemsByOrder->items = collect();
-    //             $ordersByOrder->push($orderItemsByOrder);
-    //         }
-    //         $product = $orderItem->product_id == $orderItem->product->id ? $orderItem->product : null;
-    //         $orderItemInfo = new \stdClass();
-    //         $orderItemInfo->product_name = $product ? $product->product_name : 'Product Not Found';
-    //         $orderItemInfo->product_price = $orderItem->product_price;
-    //         $orderItemInfo->quantity = $orderItem->quantity;
-    //         $orderItemInfo->order_price = $orderItem->product_price * $orderItem->quantity;
-    //         $orderItemsByOrder->status = $orderItem->status;
-    //         $orderItemsByOrder->items->push($orderItemInfo);
-    //         $orderItemsByOrder->total_price += $orderItemInfo->order_price;
-    //     }
-    // }
-
-    // Sort the order items within each order by order ID
-//     $ordersByOrder->transform(function ($orderItemsByOrder) {
-//         $orderItemsByOrder->items = $orderItemsByOrder->items->sortBy('product_name');
-//         return $orderItemsByOrder;
-//     });
-    
-//     return view('orders', compact('ordersByOrder'));
-// }
-
-// public function vendorOrders()
-// {
-//     $vendorId = auth()->id();
-    
-//     $orders = Order::join('order_items', 'orders.id', '=', 'order_items.order_id')
-//     ->join('products', 'order_items.product_id', '=', 'products.id')
-//     ->join('users', 'orders.user_id', '=', 'users.id')
-//     ->where('order_items.vendor_id', $vendorId)
-//     ->select('orders.*', 'order_items.*','products.*')
-//     ->with('items','user')
-//     ->get()
-//     ->groupBy('order_id');
-     
-//     return view('vendorOrders', compact('orders'));
-// }
-
-public function vendorOrders()
-{
-    $vendorId = auth()->id();
-    
-    $orders = Order::join('order_items', 'orders.id', '=', 'order_items.order_id')
-        ->join('products', 'order_items.product_id', '=', 'products.id')
-        ->join('users', 'orders.user_id', '=', 'users.id')
-        ->where('order_items.vendor_id', $vendorId)
-        ->orderBy('orders.created_at','desc')
-        ->select('orders.*', 'order_items.*','products.product_name', 'products.description')
-        ->with('items', 'user')
-        ->get()
-        ->groupBy('order_id')
-        ->map(function ($items) {
-            $items->each(function ($item) {
-                $item->finalPrice = $item->product_price * $item->quantity;
+        $orders = Order::join('order_items', 'orders.id', '=', 'order_items.order_id')
+            ->join('products', 'order_items.product_id', '=', 'products.id')
+            ->join('users', 'orders.user_id', '=', 'users.id')
+            ->where('order_items.vendor_id', $vendorId)
+            ->orderBy('orders.created_at','desc')
+            ->select('orders.*', 'order_items.*','products.product_name', 'products.description')
+            ->with('items', 'user')
+            ->get()
+            ->groupBy('order_id')
+            ->map(function ($items) {
+                $items->each(function ($item) {
+                    $item->finalPrice = $item->product_price * $item->quantity;
+                });
+                $items->totalPrice = $items->sum('finalPrice');
+                // dd($items->totalPrice);
+                return $items;
             });
-            $items->totalPrice = $items->sum('finalPrice');
-            // dd($items->totalPrice);
-            return $items;
-        });
-        $list = OrderItem::where('cancel_status','=',0)->orwhere('cancel_status','=',null)->count();
+            $list = OrderItem::where('cancel_status','=',0)->orwhere('cancel_status','=',null)->count();
 
-        // dd($totalPrice);
-    
-    return view('vendorOrders', compact('orders','list'));
-}
+            // dd($totalPrice);
+        
+        return view('vendorOrders', compact('orders','list'));
+    }
 
     public function confirm(Request $request)
     {
@@ -226,42 +161,6 @@ public function vendorOrders()
         return redirect()->back();
     }
 
-    // public function deliver(Request $request){
-    //     $orderItems = OrderItem::where('order_id', $orderId)
-    //                             ->whereHas('product', function($query) use ($vendorId){
-    //                                 $query->where('vendor_id', $vendorId);
-    //                             })
-    //                             ->get();
-    //                             foreach ($orderItems as $item) {
-    //                                 $item->status = 'delivered';
-    //                                 $item->save();
-    //                             }    
-    //     return redirect()->route('orders.vendor');
-    // }
-
-    // public function confirm(Request $request)
-    // {
-    //     $orderId = $request->input('order_id');
-
-    //     dd($orderId);
-    //     $order = Order::findOrFail($id);
-        
-    //     // Update the status of the order to "confirmed"
-    //     $order->status = 'confirmed';
-    //     $order->save();
-        
-    //     // Loop through each item in the order
-    //     foreach ($order->orderItems as $item) {
-    //         $product = $item->product;
-            
-    //         // Subtract the quantity of the item from the product's quantity
-    //         $product->quantity -= $item->quantity;
-    //         $product->save();
-    //     }
-        
-    //     return redirect()->back()->with('message', 'Order confirmed!');
-    // }
-
     public function cancel(Request $request)
     {
         $cancel_req = $request->input('cancelReason');
@@ -269,9 +168,6 @@ public function vendorOrders()
         $productIds = $request->input('product_ids');
         $orderId = $request->input('order_id');
         $vendorId = $request->input('vendor_id');
-        // $orderItems = $request->input('order_items');
-
-        // $vendorIds = OrderItem::whereIn('product_id', $productIds)->pluck('vendor_id');
 
         // dd($productIds,$vendorId);
         if ($orderId) {
@@ -280,9 +176,7 @@ public function vendorOrders()
                 ->where('order_id', $orderId)
                 ->where('vendor_id',$vendorId)
                 ->get();
-    
-            // $vendorId = $orderItems->pluck('vendor_id')->unique(); // Get the unique vendor IDs from the order items
-    
+        
              // This will display the unique vendor IDs
             foreach ($orderItems as $orderItem) {
                 // Update the cancel_req and cancel_status columns
@@ -297,156 +191,92 @@ public function vendorOrders()
     
         return redirect()->back()->with('message','Cancellation request was successfully sent!');
     }
-    
-    
-    
-    // public function show($orderId)
-    // {
-    //     $ord = Order::findOrFail($orderId);
-    //     $products = $order->products;
 
-    //     return view('orders', compact('ord', 'products'));
-    // }
+    public function store(Request $request)
+    {
+        // dd($request);
+        $action = $request->input('action');
+        $order = $request->input('order_id');
+        $vendorId = $request->input('vendor_id');
+        $orderItems = OrderItem::where('order_id', $order)
+                                    ->whereHas('product', function($query) use ($vendorId){
+                                        $query->where('vendor_id', $vendorId);
+                                    })
+                                    ->get();
 
-//     public function store(Request $request)
-// {
-//     // Validate the form data
-//     $validatedData = $request->validate([
-//         'name' => 'required',
-//         'address' => 'required',
-//         'city' => 'required',
-//         'country' => 'required',
-//         'postalcode' => 'required',
-//         'phone' => 'required',
-//         'email' => 'required|email',
-//     ]);
+        if($action == 'removeList'){
+            foreach($orderItems as $item){
+                $item->cancel_status = 1;
+                $item->save();
+            }
+        }
+        if($action == 'cancelReq'){
+            foreach ($orderItems as $item) {
+                $item->status = 'pending';
+                $item->save();
+            }
+        }
+        // Validate the form input
+        $validated = $request->validate([
+            'user_id' => 'required',
+            'name' => 'required|string',
+            'address' => 'required|string',
+            'city' => 'required|string',
+            'country' => 'required|string',
+            'postalcode' => 'required|string',
+            'phone' => 'required|string',
+            'email' => 'required|email',
+            // 'totalprice' => 'required|numeric',
+        ]);
 
-//     $userId = Auth::id();
-//     // Update the user data
-//     $user = Auth::user();
-//     $user->name = $request->input('name');
-//     $user->address = $request->input('address');
-//     $user->city = $request->input('city');
-//     $user->country = $request->input('country');
-//     $user->postalcode = $request->input('postalcode');
-//     $user->number = $request->input('phone');
-//     $user->save();
+        if(!$validated){
+            return redirect()->back()->withErrors(['error' => 'Fill in the required fields before placing order!']);
+        }else{
 
-//     // Create a new order
-//     $order = new Order;
-//     $order->user_id = $userId;
-//     $order->name = $request->input('name');
-//     $order->address = $request->input('address');
-//     $order->city = $request->input('city');
-//     $order->country = $request->input('country');
-//     $order->postalcode = $request->input('postalcode');
-//     $order->phone = $request->input('phone');
-//     $order->email = $request->input('email');
-//     $order->total_price = $request->input('totalprice');
-//     $order->status = 'pending';
-//     $order->save();
+        // Update user record with entered details
+        $user = User::findOrFail($validated['user_id']);
+        $user->name = $validated['name'];
+        $user->city = $validated['city'];
+        $user->address = $validated['address'];
+        $user->country = $validated['country'];
+        $user->postalcode = $validated['postalcode'];
+        $user->number = $validated['phone'];
+        $user->save();
 
-//     // Attach products to the order
-//     $carts = Cart::where('cart_userid', Auth::id())->get();
-//     foreach ($carts as $cart) {
-//         $product = Product::findOrFail($cart->cart_productid);
-//         $order->products()->attach($product->id, ['quantity' => $cart->cart_quantity, 'price' => $product->product_price]);
-//         $cart->delete();
-//     }
+            // Create a new order
+        $order = new Order();
+        $order->user_id = $validated['user_id'];
+        $order->name = $validated['name'];
+        $order->address = $validated['address'];
+        $order->city = $validated['city'];
+        $order->country = $validated['country'];
+        $order->postal_code = $validated['postalcode'];
+        $order->phone_number = $validated['phone'];
+        $order->email = $validated['email'];
+        $order->save();
 
-//     return redirect()->route('orders.index', ['orderId' => $order->id]);
+        // Add each cart item as an order item
+        $carts = Cart::where('cart_userid', auth()->id())->get();
 
-//     }
-public function store(Request $request)
-{
-    
-    // dd($request);
-    $action = $request->input('action');
-    $order = $request->input('order_id');
-    $vendorId = $request->input('vendor_id');
-    // dd($vendorId);
-    // $item = OrderItem::where('order_id', $order)->first();
-    $orderItems = OrderItem::where('order_id', $order)
-                                ->whereHas('product', function($query) use ($vendorId){
-                                    $query->where('vendor_id', $vendorId);
-                                })
-                                ->get();
+        foreach ($carts as $cart) {
+            $orderItem = new OrderItem();
+            $orderItem->order_id = $order->id;
+            $orderItem->product_id = $cart->cart_productid;
+            $orderItem->vendor_id = $cart->cart_vendorid;
+            $orderItem->quantity = $cart->cart_quantity;
+            $orderItem->product_price = $cart->cart_price;
+            $orderItem->status = 'pending';
+            $orderItem->cancel_status = 0;
 
-    // dd($orderItems);
-    // dd($action, $order);
-    if($action == 'removeList'){
-        foreach($orderItems as $item){
-            $item->cancel_status = 1;
-            $item->save();
+
+            $orderItem->save();
+
+            // Remove the cart item
+            $cart->delete();
+        }
+
+        return redirect()->route('orders.index', compact('order','orderItem'));
         }
     }
-    if($action == 'cancelReq'){
-        foreach ($orderItems as $item) {
-            $item->status = 'pending';
-            $item->save();
-        }
-    }
-    // Validate the form input
-    $validated = $request->validate([
-        'user_id' => 'required',
-        'name' => 'required|string',
-        'address' => 'required|string',
-        'city' => 'required|string',
-        'country' => 'required|string',
-        'postalcode' => 'required|string',
-        'phone' => 'required|string',
-        'email' => 'required|email',
-        // 'totalprice' => 'required|numeric',
-    ]);
-
-    if(!$validated){
-        return redirect()->back()->withErrors(['error' => 'Fill in the required fields before placing order!']);
-    }else{
-
-    // Update user record with entered details
-    $user = User::findOrFail($validated['user_id']);
-    $user->name = $validated['name'];
-    $user->city = $validated['city'];
-    $user->address = $validated['address'];
-    $user->country = $validated['country'];
-    $user->postalcode = $validated['postalcode'];
-    $user->number = $validated['phone'];
-    $user->save();
-
-        // Create a new order
-    $order = new Order();
-    $order->user_id = $validated['user_id'];
-    $order->name = $validated['name'];
-    $order->address = $validated['address'];
-    $order->city = $validated['city'];
-    $order->country = $validated['country'];
-    $order->postal_code = $validated['postalcode'];
-    $order->phone_number = $validated['phone'];
-    $order->email = $validated['email'];
-    $order->save();
-
-    // Add each cart item as an order item
-    $carts = Cart::where('cart_userid', auth()->id())->get();
-
-    foreach ($carts as $cart) {
-        $orderItem = new OrderItem();
-        $orderItem->order_id = $order->id;
-        $orderItem->product_id = $cart->cart_productid;
-        $orderItem->vendor_id = $cart->cart_vendorid;
-        $orderItem->quantity = $cart->cart_quantity;
-        $orderItem->product_price = $cart->cart_price;
-        $orderItem->status = 'pending';
-        $orderItem->cancel_status = 0;
-
-
-        $orderItem->save();
-
-        // Remove the cart item
-        $cart->delete();
-    }
-
-    return redirect()->route('orders.index', compact('order','orderItem'));
-    }
-}
 
 }

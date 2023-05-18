@@ -19,7 +19,7 @@
         @endif
 @if($list == 0 || $orders->isEmpty())
     <div class="bg-warning text-black rounded-3 py-1"style="font-weight:600; margin:auto; text-align:center;">
-        No order records can be displayed.
+        There are no orders made to manage.
     </div>
 @else
 @foreach ($orders as $orderId => $orderItems)
