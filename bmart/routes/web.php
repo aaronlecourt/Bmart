@@ -53,7 +53,7 @@ Route::middleware(['auth', 'user-access:vendor'])->group(function(){
     // Route::post('/vendor/orders', [OrderController::class, 'deliver'])->name('orders.deliver');
     // Route::post('/vendor/sales', [SaleController::class, 'index'])->name('vendor.sales');
     Route::match(['get', 'post'], '/vendor/sales', [SaleController::class, 'index'])->name('vendor.sales');
-    Route::get('/vendor/sales/clear-filters', [SaleController::class, 'clearFilters'])->name('vendor.sales.clear-filters');
+    Route::match(['get', 'post'],'/vendor/sales/clear-filters', [SaleController::class, 'clearFilters'])->name('vendor.sales.clear-filters');
 
 
 });
