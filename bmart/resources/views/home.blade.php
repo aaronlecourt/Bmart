@@ -34,11 +34,11 @@
             @endforeach
         </form>
     </div>
-    @if($prods->isEmpty())
+        @if($prods->isEmpty())
     <div class="container-fluid rounded-3" style="border: 1px solid rgba(0,0,0,0.1);">
         <div class="row">
             <div class="col-sm-6 p-5">
-            <p>No "{{$srch}}" product records were found.</p>
+            <p>No {{' '.$srch.' '}}product records were found.</p>
             </div>
         </div>
     </div>
@@ -46,6 +46,7 @@
     <div class="container-fluid rounded-3" style="border: 1px solid rgba(0,0,0,0.1);">
         <div class="row">
             @foreach($prods as $prod)
+            @if(!$prod->quantity == 0)
             <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 p-2">
                 <form action="{{route('cart.store')}}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -56,17 +57,20 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-title">{{$prod->product_name}}</h5>
                                     <input type="hidden" value="{{$userId}}" name="userid">
-                                    <input type="hidden" value="{{$prod->prod_id}}" name="product_id">
+                                    <input type="hidden" value="{{$prod->prod_id}}" name="product_ids[]">
                                 <h5 class="card-text"><b>P{{$prod->product_price}}</b></h5>
-                                    <input type="hidden" value="{{$prod->product_price}}" name="product_price">
+                                    <input type="hidden" value="{{$prod->product_price}}" name="prices[]">
                             </div>
                             
-                            <p class="card-text">{{$prod->description}}</p>
+                            <p class="card-text"><span class="card-text"><b>Qty:{{$prod->quantity}}</b></span>&nbsp| {{$prod->description}}</p>
+                            
                             <div class="d-flex justify-content-between align-items-center">
                                 <small class="card-text">{{$prod->category_name}} | {{$prod->name}}</small>
+                                    <input type="hidden" value="{{$prod->quantity}}" name="prod_quantity">
                                     <input type="hidden" value="{{$prod->categ_id}}" name="categ_id">
                                     <input type="hidden" value="{{$prod->name}}" name="vendor_name">
-                                <input type="number" class="form-control w-50" value="0" name="quantity"/>
+                                    <input type="hidden" value="{{$prod->vendor_id}}" name="vendor_ids[]">
+                                <input type="number" class="form-control w-50" value="0"  name="quantities[]"/>
                                 {{-- <span class="input-group-text">Quantity:{{$prod->quantity}}</span> --}}
                             </div>
                             <br>
@@ -79,8 +83,12 @@
                     </div>
                 </form>
             </div>
+            @endif
             @endforeach
         </div>
+        @if($count != 0)
+            <span style="font-weight:600">Showing {{$count}} result(s).</span>
+        @endif
         {{$prods->links('pagination::bootstrap-5')}}
     </div>
     @endif

@@ -23,7 +23,7 @@ class HomeController extends Controller
             $query = DB::table('products')
             ->join('categories', 'products.category_id', '=', 'categories.id')
             ->join('users', 'products.user_id', '=', 'users.id')
-            ->select('products.*', 'categories.*', 'users.*', 'products.id AS prod_id', 'categories.id AS categ_id');
+            ->select('products.*', 'categories.*', 'users.*', 'users.id AS vendor_id','products.id AS prod_id', 'categories.id AS categ_id');
     
 
         // Check if search query is present in the request
@@ -43,14 +43,19 @@ class HomeController extends Controller
 
         $prods = $query->paginate(12);
         // Append search parameter to pagination links
-        if ($request->has('search')) {
+        if ($request->has('search') && $request->input('search') != '') {
             $search = $request->input('search');
             $prods->appends(['search' => $search]);
+            // Count the number of search results
+            $count = $query->count();
+        }
+        else{
+            $count = 0;
         }
 
-        return view('home', compact('prods','categs','vend', 'srch', 'userId'));
+        return view('home', compact('prods','categs','vend', 'srch', 'userId', 'count'));
     }
     public function vendorHome(){
-        return view('vendorHome');
+        return view('vendorHome', compact('products'));
     }
 }

@@ -13,19 +13,19 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('name');
+            $table->string('email');
             $table->string('address');
             $table->string('city');
             $table->string('country');
-            $table->string('postalcode');
-            $table->string('phone');
-            $table->string('email');
-            $table->decimal('total_price', 8, 2);
-            $table->enum('status', ['pending', 'confirmed', 'shipped', 'delivered'])->default('pending');
+            $table->string('postal_code');
+            $table->string('phone_number');
+            // $table->enum('status', ['pending', 'cancelled', 'confirmed'])->default('pending');
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
         });
-        
     }
 
     /**

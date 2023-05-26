@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\CategoryVendor;
 use Auth;
 
 class ProductController extends Controller
 {
     public function index(Request $request)
-{
+    {
     $userId = Auth::id();
     $query = DB::table('products')
         ->join('categories', 'products.category_id', '=', 'categories.id')
@@ -32,22 +33,43 @@ class ProductController extends Controller
         });        
     }
 
-    $products = $query->paginate(5);
+    
+
+    // Paginate the results
+    $products = $query->paginate(3);
 
     // Append search parameter to pagination links
-    if ($request->has('search')) {
+    if ($request->has('search') && $request->input('search') != '') {
         $search = $request->input('search');
         $products->appends(['search' => $search]);
+        // Count the number of search results
+        $count = $query->count();
+    }
+    else{
+        $count = 0;
     }
 
-    return view('vendorHome', compact('products'));
-}
+    // Pass the count and products to the view
+    return view('vendorHome', compact('products', 'count'));
+    }
+
 
 
     public function create()
     {
         $products = Product::all();
-        $categories = Category::all();
+        // $categories = Category::all();
+        $userId = Auth::id();
+        
+        $categories = Category::whereDoesntHave('vendors', function($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })
+        ->orWhereHas('vendors', function($query) use ($userId) {
+            $query->where('user_id', $userId)
+                ->where('deleted', 0);
+        })
+        ->get();      
+
         return view('products_create', compact('products','categories'));
     }
 
@@ -62,23 +84,32 @@ class ProductController extends Controller
             'description'=>'required',
             'product_image'=>'required|mimes:jpg,png,jpeg|max:5048',
         ]);
-        
-        $imageName = time().'-'.$request->product_name.'.'. $request->product_image->extension();
-        $request->product_image->move(public_path('product_image'), $imageName);
-        // dd($test);
-
-        $product = Product::create([
-            'user_id' => $request->input('user_id'),
-            'product_name' => $request->input('product_name'),
-            'product_price' => $request->input('product_price'),
-            'category_id' => $request->input('category_id'),
-            'quantity'=> $request->input('quantity'),
-            'description' => $request->input('description'),
-            'product_image'=> $imageName
-        ]);
-
-        return redirect()->route('vendor.home')->with('message','You have successfully added a product!');
+    
+        $userId = Auth::id();
+        $existingProduct = Product::where('user_id', $userId)
+                                   ->where('product_name', $request->input('product_name'))
+                                   ->first();
+    
+        if ($existingProduct) {
+            return redirect()->back()->with('error', 'You already added "'.$existingProduct->product_name.'" as a product!');
+        } else {
+            $imageName = time().'-'.$request->product_name.'.'. $request->product_image->extension();
+            $request->product_image->move(public_path('product_image'), $imageName);
+    
+            $product = Product::create([
+                'user_id' => $request->input('user_id'),
+                'product_name' => $request->input('product_name'),
+                'product_price' => $request->input('product_price'),
+                'category_id' => $request->input('category_id'),
+                'quantity'=> $request->input('quantity'),
+                'description' => $request->input('description'),
+                'product_image'=> $imageName
+            ]);
+    
+            return redirect()->route('vendor.home')->with('message','You have successfully added a product!');
+        }
     }
+    
 
     public function show(Product $product)
     {
@@ -120,9 +151,13 @@ class ProductController extends Controller
     }
     
     public function destroy(Product $product)
-    {        
-        // Check if the user is authenticated
-        if (auth()->Check()) {
+    {
+    // Check if the product is in any orders
+    if ($product->orderItems()->count() > 0) {
+        return redirect()->back()->with('error', 'Failed to delete the product. There are orders with this product.');
+    }
+    // Check if the user is authenticated
+    if (auth()->Check()) {
         // Get the authenticated user
         $user = Auth()->user();
         
@@ -133,7 +168,7 @@ class ProductController extends Controller
             return redirect()->route('vendor.home')->with('message', 'Product deleted successfully!');
         }
     }
-    
+
     // If the password doesn't match, redirect back with an error message
     return redirect()->back()->with('error', 'Incorrect password. Failed to delete the product.');
     }

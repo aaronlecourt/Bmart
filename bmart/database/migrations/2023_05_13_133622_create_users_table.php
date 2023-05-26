@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('country')->nullable();
             $table->string('postalcode')->nullable();
             $table->string('email')->unique();
-            $table->integer('isVendor')->default(0);
+            $table->integer('isVendor')->nullable();
             $table->string('password');
             $table->timestamps();
         });

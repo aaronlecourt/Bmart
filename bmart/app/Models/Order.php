@@ -8,16 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'name', 'address', 'city', 'country', 'postalcode', 'phone', 'email', 'total_price','status'
-    ];
-
+    protected $fillable = ['name', 'email','address', 'city', 'country', 'postal_code', 'phone_number'];
+    // protected $vendors = [];
     public function items()
     {
         return $this->hasMany(OrderItem::class);
     }
-    public function products()
+    
+    public function user()
     {
-        return $this->belongsToMany(Product::class, 'order_items')->withPivot('quantity', 'price');
+        return $this->belongsTo(User::class);
+    }
+
+    public function getTotalPriceAttribute()
+    {
+        return $this->items->sum(function (OrderItem $item) {
+            return $item->quantity * $item->product_price;
+        });
     }
 }

@@ -6,6 +6,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SaleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,12 +31,12 @@ Route::middleware(['auth', 'user-access:buyer'])->group(function(){
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::resource('/cart', CartController::class);
     Route::match(['get', 'post'], '/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
-    // Show order details
-    // Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show');
-
     // Create new order
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::post('/orders/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+    // Route::post('/orders', [OrderController::class, 'confirm'])->name('orders.confirm');
+
     });
 
 //Seller Route List
@@ -44,6 +46,14 @@ Route::middleware(['auth', 'user-access:vendor'])->group(function(){
     Route::resource('/vendor/products', ProductController::class);
     Route::get('/vendor/profile', [UserController::class,'changeProfile'])->name('change-profile');
     Route::post('/vendor/profile', [UserController::class,'updateProfile'])->name('update-profile');
-    // Route::post('/vendor/products/{product}', [ProductController::class, 'destroy']);
+    Route::resource('/vendor/categories', CategoryController::class);
+
+    Route::get('/vendor/orders', [OrderController::class, 'vendorOrders'])->name('orders.vendor');
+    Route::post('/vendor/orders', [OrderController::class, 'confirm'])->name('orders.confirm');
+    // Route::post('/vendor/orders', [OrderController::class, 'deliver'])->name('orders.deliver');
+    // Route::post('/vendor/sales', [SaleController::class, 'index'])->name('vendor.sales');
+    Route::match(['get', 'post'], '/vendor/sales', [SaleController::class, 'index'])->name('vendor.sales');
+    Route::match(['get', 'post'],'/vendor/sales/clear-filters', [SaleController::class, 'clearFilters'])->name('vendor.sales.clear-filters');
+
 
 });

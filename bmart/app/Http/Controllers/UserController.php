@@ -18,13 +18,15 @@ class UserController extends Controller
             $request->validate([
                 'user_name' => 'required|string',
                 'user_number' => 'required|max:11',
-                'user_email' => 'required|email|string',
+                'user_email' => 'required|email',
+                // 'user_address'=>'required'
             ]);
             
             User::whereId(Auth()->user()->id)->update([
                 'name' => $request->user_name,
                 'number' => $request->user_number,
                 'email' => $request->user_email,
+                'address' => $request->user_address,
             ]);
 
             return back()->with("message", "Profile Details changed successfully!");
